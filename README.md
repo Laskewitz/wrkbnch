@@ -90,7 +90,15 @@ See the [documentation](https://laskewitz.github.io/wrkbnch/) for live examples.
 
 ## Copilot Skill
 
-wrkbnch ships with a Copilot skill file at `skill/wrkbnch/SKILL.md` that teaches AI agents how to use the design system correctly — including behavioral rules, component selection guidance, and anti-patterns to avoid.
+wrkbnch ships with a Copilot skill that teaches AI agents how to use the design system correctly — including behavioral rules, component selection guidance, and anti-patterns to avoid.
+
+Install the skill:
+
+```bash
+npx skills add Laskewitz/wrkbnch@wrkbnch
+```
+
+Or browse it at [skills.sh](https://skills.sh/Laskewitz/wrkbnch/wrkbnch).
 
 ---
 
