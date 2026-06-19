@@ -622,10 +622,10 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
           </div>
           <div class="component-row" style="max-width: 360px;">
             <p class="mono-label mb-2">Range Slider</p>
-            <div class="range-field">
-              <div class="range-top"><span>0%</span><output class="range-value" id="range-demo-val">65%</output><span>100%</span></div>
+            <div class="range-field" style="max-width: 360px;">
+              <output class="range-value" id="range-demo-val" style="left: 65%;">65%</output>
               <input class="range-input" type="range" min="0" max="100" value="65" id="range-demo"
-                oninput="document.getElementById('range-demo-val').textContent=this.value+'%'">
+                oninput="let v=this.value,o=document.getElementById('range-demo-val');o.textContent=v+'%';o.style.left=v+'%';">
             </div>
           </div>
           <div class="component-row">
