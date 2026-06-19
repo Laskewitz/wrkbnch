@@ -1,0 +1,12 @@
+node_modules/
+*.min.css
+*.min.css.map
+scripts/
+skill/
+CONTRIBUTING.md
+CHANGELOG.md
+index.html
+favicon.svg
+og-image.svg
+.gitignore
+.gitattributes

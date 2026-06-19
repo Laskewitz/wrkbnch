@@ -1,0 +1,43 @@
+{
+  "name": "wrkbnch-css",
+  "version": "1.0.0",
+  "description": "A warm, utilitarian CSS design system for AI-generated interfaces.",
+  "main": "wrkbnch.css",
+  "style": "wrkbnch.css",
+  "files": [
+    "wrkbnch.css",
+    "wrkbnch.min.css",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "npx live-server --port=3000 --open=index.html"
+  },
+  "keywords": [
+    "css",
+    "css-framework",
+    "design-system",
+    "ui",
+    "components",
+    "dark-mode",
+    "light-mode",
+    "tokens",
+    "minimal",
+    "accessible",
+    "ai-friendly"
+  ],
+  "author": "Laskewitz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Laskewitz/wrkbnch"
+  },
+  "homepage": "https://laskewitz.github.io/wrkbnch",
+  "bugs": {
+    "url": "https://github.com/Laskewitz/wrkbnch/issues"
+  },
+  "devDependencies": {
+    "clean-css": "^5.3.3"
+  }
+}

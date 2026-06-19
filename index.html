@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wrkbnch — CSS Design System</title>
+  <meta name="description" content="A warm, utilitarian CSS design system for AI-generated interfaces.">
+  <meta property="og:title" content="wrkbnch CSS">
+  <meta property="og:description" content="A warm, utilitarian CSS design system for AI-generated interfaces.">
+  <meta property="og:image" content="https://laskewitz.github.io/wrkbnch/og-image.svg">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="wrkbnch.css">
+  <style>
+    .docs-section { padding-block: var(--space-12); border-bottom: var(--border-subtle); }
+    .docs-section:last-child { border-bottom: none; }
+    .docs-grid { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-8); align-items: start; }
+    .docs-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; padding-top: var(--space-1); }
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-3); }
+    .color-swatch { border-radius: var(--radius-md); overflow: hidden; border: var(--border-subtle); }
+    .color-swatch-block { height: 64px; }
+    .color-swatch-info { padding: var(--space-2) var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); background: var(--color-surface-raised); }
+    .type-sample { margin-bottom: var(--space-4); }
+    .component-row { margin-bottom: var(--space-6); }
+    .theme-toggle { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; }
+    @media (max-width: 768px) {
+      .docs-grid { grid-template-columns: 1fr; gap: var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+  <button class="btn btn-sm theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ Theme</button>
+
+  <!-- Header -->
+  <header class="container py-16">
+    <div class="stack stack-lg">
+      <div>
+        <p class="mono-label mb-2">Design System v1.0</p>
+        <h1 class="display-lg">wrkbnch</h1>
+        <p class="body-lg text-muted" style="max-width: 48ch; margin-top: var(--space-3);">A warm, utilitarian CSS design system. No JavaScript, no build step. For interfaces that feel built, not generated.</p>
+      </div>
+      <div class="cluster">
+        <a href="https://github.com/Laskewitz/wrkbnch" class="btn btn-primary">GitHub</a>
+        <a href="https://www.npmjs.com/package/wrkbnch-css" class="btn">npm</a>
+        <code class="mono" style="padding: var(--space-2) var(--space-3);">npm install wrkbnch-css</code>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Colors -->
+    <section class="docs-section" id="colors">
+      <div class="docs-grid">
+        <div class="docs-label">Colors</div>
+        <div class="stack">
+          <p class="body-sm text-muted mb-4">Warm neutrals with earthy accents. One dominant accent per surface.</p>
+          <div class="color-grid">
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #e8dcc8;"></div>
+              <div class="color-swatch-info">--sand<br>#e8dcc8</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #f5f2ec;"></div>
+              <div class="color-swatch-info">--chalk<br>#f5f2ec</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #1a1a18;"></div>
+              <div class="color-swatch-info" style="color: #f0ede8;">--ink<br>#1a1a18</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #2d2d2a;"></div>
+              <div class="color-swatch-info" style="color: #f0ede8;">--charcoal<br>#2d2d2a</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #c45d2c;"></div>
+              <div class="color-swatch-info">--copper<br>#c45d2c</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #4a6670;"></div>
+              <div class="color-swatch-info" style="color: #f0ede8;">--slate<br>#4a6670</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #5a7a52;"></div>
+              <div class="color-swatch-info" style="color: #f0ede8;">--moss<br>#5a7a52</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #b83a3a;"></div>
+              <div class="color-swatch-info" style="color: #f0ede8;">--danger<br>#b83a3a</div>
+            </div>
+            <div class="color-swatch">
+              <div class="color-swatch-block" style="background: #a86b1d;"></div>
+              <div class="color-swatch-info" style="color: #f0ede8;">--warning<br>#a86b1d</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="docs-section" id="typography">
+      <div class="docs-grid">
+        <div class="docs-label">Typography</div>
+        <div class="stack">
+          <div class="type-sample">
+            <p class="mono-label mb-2">Display — Fraunces</p>
+            <p class="display-lg">The precision workshop</p>
+          </div>
+          <div class="type-sample">
+            <p class="mono-label mb-2">Heading — Instrument Sans</p>
+            <p class="heading-xl">Build interfaces that feel specific</p>
+          </div>
+          <div class="type-sample">
+            <p class="mono-label mb-2">Body — Instrument Sans</p>
+            <p class="body-lg" style="max-width: 50ch;">Dense information made navigable through strict hierarchy. Utilitarian without being cold — warm neutrals instead of blue-grays.</p>
+          </div>
+          <div class="type-sample">
+            <p class="mono-label mb-2">Mono — IBM Plex Mono</p>
+            <p class="mono">font-family: 'IBM Plex Mono', monospace;</p>
+          </div>
+          <div class="type-sample">
+            <p class="mono-label mb-2">Mono Label</p>
+            <p class="mono-label">Status · Metadata · Timestamps</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="docs-section" id="buttons">
+      <div class="docs-grid">
+        <div class="docs-label">Buttons</div>
+        <div class="stack">
+          <div class="cluster component-row">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn">Default</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-danger">Danger</button>
+            <button class="btn" disabled>Disabled</button>
+          </div>
+          <div class="cluster component-row">
+            <button class="btn btn-sm btn-primary">Small</button>
+            <button class="btn btn-sm">Small</button>
+            <button class="btn btn-lg btn-primary">Large</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section class="docs-section" id="badges">
+      <div class="docs-grid">
+        <div class="docs-label">Badges</div>
+        <div class="cluster">
+          <span class="badge">default</span>
+          <span class="badge badge-accent">accent</span>
+          <span class="badge badge-success badge-dot">success</span>
+          <span class="badge badge-warning badge-dot">warning</span>
+          <span class="badge badge-danger badge-dot">danger</span>
+          <span class="badge badge-info">info</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alerts -->
+    <section class="docs-section" id="alerts">
+      <div class="docs-grid">
+        <div class="docs-label">Alerts</div>
+        <div class="stack">
+          <div class="alert alert-info">Deploy completed successfully in 2.3s. All health checks passed.</div>
+          <div class="alert alert-accent">New version available. Run <code>npm update wrkbnch-css</code> to upgrade.</div>
+          <div class="alert alert-warning">Rate limit approaching. 847/1000 requests used this hour.</div>
+          <div class="alert alert-danger">Connection to database lost. Retrying in 5s.</div>
+          <div class="alert alert-success">Migration applied. 3 tables created, 0 errors.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards & Panels -->
+    <section class="docs-section" id="cards">
+      <div class="docs-grid">
+        <div class="docs-label">Cards &amp; Panels</div>
+        <div class="stack">
+          <div class="grid grid-2">
+            <div class="card">
+              <p class="mono-label mb-2">Build Duration</p>
+              <p class="heading-xl">2.3s</p>
+              <p class="body-sm text-muted mt-2">Last build completed at 14:32</p>
+            </div>
+            <div class="card">
+              <p class="mono-label mb-2">Test Coverage</p>
+              <p class="heading-xl text-success">94%</p>
+              <div class="progress mt-2"><div class="progress-bar progress-bar-success" style="width: 94%;"></div></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <span class="heading-sm">Recent Activity</span>
+              <span class="badge badge-info">3 new</span>
+            </div>
+            <div class="panel-inset">
+              <p class="mono-sm text-muted">No new events in the last hour.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forms -->
+    <section class="docs-section" id="forms">
+      <div class="docs-grid">
+        <div class="docs-label">Forms</div>
+        <div class="stack" style="max-width: 400px;">
+          <div class="form-group">
+            <label class="form-label">Project name</label>
+            <input class="form-input" type="text" placeholder="my-project">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Environment</label>
+            <select class="form-select">
+              <option>Production</option>
+              <option>Staging</option>
+              <option>Development</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" placeholder="Optional project description..."></textarea>
+            <span class="form-hint">Markdown supported.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">API Key</label>
+            <input class="form-input form-input-sm" type="text" placeholder="sk-..." aria-invalid="true">
+            <span class="form-error">Invalid API key format.</span>
+          </div>
+          <div class="cluster">
+            <button class="btn btn-primary">Create Project</button>
+            <button class="btn btn-ghost">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tables -->
+    <section class="docs-section" id="tables">
+      <div class="docs-grid">
+        <div class="docs-label">Tables</div>
+        <div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Region</th>
+                  <th>Last Deploy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>api-gateway</strong></td>
+                  <td><span class="badge badge-success badge-dot">healthy</span></td>
+                  <td class="text-muted">eu-west-1</td>
+                  <td class="mono text-muted">2m ago</td>
+                </tr>
+                <tr>
+                  <td><strong>auth-service</strong></td>
+                  <td><span class="badge badge-success badge-dot">healthy</span></td>
+                  <td class="text-muted">eu-west-1</td>
+                  <td class="mono text-muted">14m ago</td>
+                </tr>
+                <tr>
+                  <td><strong>worker-queue</strong></td>
+                  <td><span class="badge badge-warning badge-dot">degraded</span></td>
+                  <td class="text-muted">us-east-1</td>
+                  <td class="mono text-muted">1h ago</td>
+                </tr>
+                <tr>
+                  <td><strong>billing-api</strong></td>
+                  <td><span class="badge badge-danger badge-dot">down</span></td>
+                  <td class="text-muted">us-east-1</td>
+                  <td class="mono text-muted">3h ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="docs-section" id="navigation">
+      <div class="docs-grid">
+        <div class="docs-label">Navigation</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Horizontal Nav</p>
+            <nav class="nav">
+              <a class="nav-item active" href="#" aria-current="page">Overview</a>
+              <a class="nav-item" href="#">Deployments</a>
+              <a class="nav-item" href="#">Settings</a>
+              <a class="nav-item" href="#">Logs</a>
+            </nav>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Tabs</p>
+            <div class="tabs">
+              <a class="tab active" aria-selected="true">Source</a>
+              <a class="tab">Preview</a>
+              <a class="tab">History</a>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Breadcrumb</p>
+            <nav class="breadcrumb">
+              <a href="#">Projects</a>
+              <span class="breadcrumb-separator">/</span>
+              <a href="#">api-gateway</a>
+              <span class="breadcrumb-separator">/</span>
+              <span>Settings</span>
+            </nav>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Pagination</p>
+            <nav class="pagination">
+              <a class="pagination-item" href="#">←</a>
+              <a class="pagination-item active" href="#" aria-current="page">1</a>
+              <a class="pagination-item" href="#">2</a>
+              <a class="pagination-item" href="#">3</a>
+              <a class="pagination-item" href="#">→</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code & Terminal -->
+    <section class="docs-section" id="code">
+      <div class="docs-grid">
+        <div class="docs-label">Code &amp; Terminal</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Inline Code</p>
+            <p class="body-md">Install with <code>npm install wrkbnch-css</code> and link the stylesheet.</p>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Code Block</p>
+            <pre><code>&lt;link rel="stylesheet" href="wrkbnch.css"&gt;
+
+&lt;div class="card"&gt;
+  &lt;p class="mono-label"&gt;Status&lt;/p&gt;
+  &lt;p class="heading-xl"&gt;Operational&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Terminal</p>
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-title">~/projects/my-app</span>
+              </div>
+              <div class="terminal-prompt">npm run build</div>
+              <div class="terminal-output">
+> my-app@1.0.0 build
+> vite build
+
+✓ 247 modules transformed.
+dist/index.html    0.42 kB │ gzip: 0.27 kB
+dist/app.js       84.21 kB │ gzip: 27.83 kB
+dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
+              <div class="terminal-comment"># Build completed in 1.8s</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key-Value List -->
+    <section class="docs-section" id="kv-list">
+      <div class="docs-grid">
+        <div class="docs-label">Key-Value List</div>
+        <div>
+          <div class="card card-sm">
+            <div class="kv-list">
+              <span class="kv-key">version</span>
+              <span class="kv-value">1.0.0</span>
+              <span class="kv-key">runtime</span>
+              <span class="kv-value">Node.js 20.11</span>
+              <span class="kv-key">region</span>
+              <span class="kv-value">eu-west-1</span>
+              <span class="kv-key">last-deploy</span>
+              <span class="kv-value">2024-01-15 14:32:08 UTC</span>
+              <span class="kv-key">status</span>
+              <span class="kv-value"><span class="badge badge-success badge-dot">operational</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Log Viewer -->
+    <section class="docs-section" id="log-viewer">
+      <div class="docs-grid">
+        <div class="docs-label">Log Viewer</div>
+        <div>
+          <div class="log-viewer">
+            <div class="log-entry">
+              <span class="log-time">14:32:08</span>
+              <span class="log-level log-level-info">INFO</span>
+              <span class="log-message">Server started on port 3000</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:09</span>
+              <span class="log-level log-level-info">INFO</span>
+              <span class="log-message">Database connection established</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:11</span>
+              <span class="log-level log-level-warn">WARN</span>
+              <span class="log-message">Rate limit threshold at 80% capacity</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:14</span>
+              <span class="log-level log-level-error">ERROR</span>
+              <span class="log-message">Connection timeout: redis://cache.internal:6379</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:15</span>
+              <span class="log-level log-level-debug">DEBUG</span>
+              <span class="log-message">Retry attempt 1/3 for cache connection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status & Progress -->
+    <section class="docs-section" id="status">
+      <div class="docs-grid">
+        <div class="docs-label">Status &amp; Progress</div>
+        <div class="stack">
+          <div class="cluster component-row">
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-success"></span> Healthy</span>
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-warning"></span> Degraded</span>
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-danger"></span> Down</span>
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-info"></span> Maintenance</span>
+          </div>
+          <div class="component-row" style="max-width: 400px;">
+            <p class="mono-label mb-2">Progress</p>
+            <div class="progress"><div class="progress-bar" style="width: 67%;"></div></div>
+            <p class="mono-sm text-muted mt-2">67% — 134 of 200 tasks complete</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty State -->
+    <section class="docs-section" id="empty-state">
+      <div class="docs-grid">
+        <div class="docs-label">Empty State</div>
+        <div>
+          <div class="card">
+            <div class="empty-state">
+              <div class="empty-state-icon">⊘</div>
+              <p class="empty-state-title">No deployments yet</p>
+              <p class="empty-state-description">Push to main to trigger your first deployment, or configure a manual deploy.</p>
+              <button class="btn btn-primary mt-4">Configure Deploy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dialog -->
+    <section class="docs-section" id="dialog">
+      <div class="docs-grid">
+        <div class="docs-label">Dialog</div>
+        <div>
+          <div class="dialog" style="position: relative; box-shadow: var(--shadow-lg);">
+            <div class="dialog-header">
+              <span class="heading-sm">Delete environment</span>
+            </div>
+            <div class="dialog-body">
+              <p class="body-sm">This will permanently delete <strong>staging-eu</strong> and all associated resources. This action cannot be undone.</p>
+            </div>
+            <div class="dialog-footer">
+              <button class="btn btn-ghost">Cancel</button>
+              <button class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast -->
+    <section class="docs-section" id="toast">
+      <div class="docs-grid">
+        <div class="docs-label">Toast</div>
+        <div class="stack">
+          <div class="toast toast-success">Deploy to production completed. 3 instances healthy.</div>
+          <div class="toast toast-danger">Build failed. Check logs for details.</div>
+          <div class="toast toast-warning">API key expires in 7 days.</div>
+          <div class="toast toast-info">New team member added to project.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layout -->
+    <section class="docs-section" id="layout">
+      <div class="docs-grid">
+        <div class="docs-label">Layout</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Stack</p>
+            <div class="stack stack-sm" style="max-width: 300px;">
+              <div class="panel-inset"><code class="mono-sm">.stack</code> with vertical gap</div>
+              <div class="panel-inset"><code class="mono-sm">Each child stacks</code></div>
+              <div class="panel-inset"><code class="mono-sm">With consistent spacing</code></div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Cluster</p>
+            <div class="cluster">
+              <div class="panel-inset"><code class="mono-sm">item</code></div>
+              <div class="panel-inset"><code class="mono-sm">wraps</code></div>
+              <div class="panel-inset"><code class="mono-sm">inline</code></div>
+              <div class="panel-inset"><code class="mono-sm">with gap</code></div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Grid</p>
+            <div class="grid grid-3">
+              <div class="panel-inset text-center"><code class="mono-sm">1</code></div>
+              <div class="panel-inset text-center"><code class="mono-sm">2</code></div>
+              <div class="panel-inset text-center"><code class="mono-sm">3</code></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Command Palette -->
+    <section class="docs-section" id="command-palette">
+      <div class="docs-grid">
+        <div class="docs-label">Command Palette</div>
+        <div>
+          <div class="command-palette" style="box-shadow: var(--shadow-xl);">
+            <input class="command-palette-input" type="text" placeholder="Type a command..." value="deploy">
+            <div class="command-palette-list">
+              <div class="command-palette-item" aria-selected="true">
+                <span>Deploy to production</span>
+                <span class="command-palette-kbd">⌘⇧D</span>
+              </div>
+              <div class="command-palette-item">
+                <span>Deploy to staging</span>
+                <span class="command-palette-kbd">⌘D</span>
+              </div>
+              <div class="command-palette-item">
+                <span>View deploy history</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="container py-12">
+    <hr class="separator">
+    <div class="cluster justify-between">
+      <p class="body-sm text-muted">wrkbnch v1.0 · MIT License</p>
+      <div class="cluster cluster-sm">
+        <a href="https://github.com/Laskewitz/wrkbnch" class="body-sm">GitHub</a>
+        <a href="https://www.npmjs.com/package/wrkbnch-css" class="body-sm">npm</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-mode');
+      html.setAttribute('data-mode', current === 'dark' ? 'light' : 'dark');
+    }
+  </script>
+</body>
+</html>
