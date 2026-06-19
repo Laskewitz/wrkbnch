@@ -1736,6 +1736,12 @@ pre code {
   transform: translateX(-50%);
   pointer-events: none;
   white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-default);
+}
+
+.range-value.visible {
+  opacity: 1;
 }
 
 .range-value::after {

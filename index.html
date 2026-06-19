@@ -623,10 +623,38 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
           <div class="component-row" style="max-width: 360px;">
             <p class="mono-label mb-2">Range Slider</p>
             <div class="range-field" style="max-width: 360px;">
-              <output class="range-value" id="range-demo-val" style="left: 65%;">65%</output>
-              <input class="range-input" type="range" min="0" max="100" value="65" id="range-demo"
-                oninput="let v=this.value,o=document.getElementById('range-demo-val');o.textContent=v+'%';o.style.left=v+'%';">
+              <output class="range-value" id="range-demo-val">65%</output>
+              <input class="range-input" type="range" min="0" max="100" value="65" id="range-demo">
             </div>
+            <script>
+              (function() {
+                var input = document.getElementById('range-demo');
+                var label = document.getElementById('range-demo-val');
+                var timer;
+                function pos() {
+                  var pct = (input.value - input.min) / (input.max - input.min);
+                  // Thumb doesn't reach edges — offset by ~8px (half thumb width)
+                  var thumbHalf = 8;
+                  var w = input.offsetWidth;
+                  var px = thumbHalf + pct * (w - thumbHalf * 2);
+                  label.style.left = px + 'px';
+                  label.textContent = input.value + '%';
+                }
+                function show() {
+                  clearTimeout(timer);
+                  label.classList.add('visible');
+                }
+                function hide() {
+                  timer = setTimeout(function() { label.classList.remove('visible'); }, 1000);
+                }
+                input.addEventListener('input', function() { pos(); show(); });
+                input.addEventListener('mousedown', show);
+                input.addEventListener('touchstart', show);
+                input.addEventListener('mouseup', hide);
+                input.addEventListener('touchend', hide);
+                pos();
+              })();
+            </script>
           </div>
           <div class="component-row">
             <p class="mono-label mb-2">Dropzone</p>
