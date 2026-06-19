@@ -1628,8 +1628,7 @@ pre code {
   transition: all var(--duration-fast) var(--ease-default);
 }
 
-.segmented-control input:checked + label,
-.segmented-control label.active {
+.segmented-control input:checked + label {
   background: var(--color-surface-raised);
   color: var(--color-text);
   box-shadow: var(--shadow-sm);
