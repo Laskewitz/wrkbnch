@@ -623,8 +623,9 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
           <div class="component-row" style="max-width: 360px;">
             <p class="mono-label mb-2">Range Slider</p>
             <div class="range-field">
-              <div class="range-top"><span>0%</span><span>100%</span></div>
-              <input class="range-input" type="range" min="0" max="100" value="65">
+              <div class="range-top"><span>0%</span><output class="range-value" id="range-demo-val">65%</output><span>100%</span></div>
+              <input class="range-input" type="range" min="0" max="100" value="65" id="range-demo"
+                oninput="document.getElementById('range-demo-val').textContent=this.value+'%'">
             </div>
           </div>
           <div class="component-row">

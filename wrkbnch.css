@@ -1739,6 +1739,15 @@ pre code {
   box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
 }
 
+.range-value {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent);
+  min-width: 3ch;
+}
+
 /* Dropzone */
 .dropzone {
   display: grid;
