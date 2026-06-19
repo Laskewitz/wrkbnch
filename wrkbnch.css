@@ -2415,6 +2415,66 @@ kbd, .kbd {
    TYPOGRAPHY & LAYOUT ADDITIONS
    ========================================================================== */
 
+/* Hero */
+.hero {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  min-height: 50vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-lg { min-height: 70vh; padding: var(--space-10) var(--space-4); }
+.hero-full { min-height: 100vh; }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 48rem;
+  display: grid;
+  gap: var(--space-4);
+  place-items: center;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  font-weight: var(--weight-bold);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.hero-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  max-width: 36rem;
+  line-height: var(--leading-relaxed);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.hero-surface {
+  background: var(--color-surface);
+  border-bottom: var(--border-thin);
+}
+
+.hero-accent {
+  background: linear-gradient(160deg, var(--copper-tint), var(--color-bg));
+}
+
+[data-mode="dark"] .hero-accent {
+  background: linear-gradient(160deg, rgba(196, 93, 44, 0.15), var(--color-bg));
+}
+
 /* Gradient Text */
 .gradient-text {
   background: linear-gradient(135deg, var(--copper), var(--slate));
