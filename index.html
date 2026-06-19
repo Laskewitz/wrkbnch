@@ -572,6 +572,285 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       </div>
     </section>
 
+    <!-- Enhanced Forms -->
+    <section class="docs-section" id="enhanced-forms">
+      <div class="docs-grid">
+        <div class="docs-label">Enhanced Forms</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Checkbox &amp; Radio</p>
+            <div class="cluster">
+              <label class="checkbox"><input type="checkbox" checked> Enable notifications</label>
+              <label class="checkbox"><input type="checkbox"> Auto-deploy</label>
+              <label class="radio"><input type="radio" name="env" checked> Production</label>
+              <label class="radio"><input type="radio" name="env"> Staging</label>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Switch</p>
+            <div class="cluster">
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="switch-track"></span>
+                Dark mode
+              </label>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="switch-track"></span>
+                Maintenance
+              </label>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Segmented Control</p>
+            <div class="segmented-control">
+              <input type="radio" name="view" id="view-list" checked>
+              <label for="view-list" class="active">List</label>
+              <input type="radio" name="view" id="view-grid">
+              <label for="view-grid">Grid</label>
+              <input type="radio" name="view" id="view-board">
+              <label for="view-board">Board</label>
+            </div>
+          </div>
+          <div class="component-row" style="max-width: 360px;">
+            <p class="mono-label mb-2">Input Group</p>
+            <div class="input-group">
+              <span class="input-affix">https://</span>
+              <input class="form-input" type="text" placeholder="example.com">
+              <span class="input-affix">/api</span>
+            </div>
+          </div>
+          <div class="component-row" style="max-width: 360px;">
+            <p class="mono-label mb-2">Range Slider</p>
+            <div class="range-field">
+              <div class="range-top"><span>0%</span><span>100%</span></div>
+              <input class="range-input" type="range" min="0" max="100" value="65">
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Dropzone</p>
+            <div class="dropzone" style="max-width: 360px;">
+              <strong>Drop files here</strong>
+              <span class="body-sm">or click to browse</span>
+              <input type="file">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Additions -->
+    <section class="docs-section" id="nav-additions">
+      <div class="docs-grid">
+        <div class="docs-label">Nav Additions</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Sidebar Nav</p>
+            <div class="sidebar-nav" style="max-width: 240px;">
+              <a href="#" class="active">Overview</a>
+              <a href="#">Deployments</a>
+              <a href="#">Environment</a>
+              <a href="#">Settings</a>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Stepper</p>
+            <div class="stepper">
+              <div class="step done"><div class="step-circle">1</div><span>Config</span></div>
+              <div class="step-line"></div>
+              <div class="step active"><div class="step-circle">2</div><span>Build</span></div>
+              <div class="step-line"></div>
+              <div class="step"><div class="step-circle">3</div><span>Deploy</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Avatars & Timeline -->
+    <section class="docs-section" id="data-additions">
+      <div class="docs-grid">
+        <div class="docs-label">Data Additions</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Avatars</p>
+            <div class="cluster">
+              <span class="avatar avatar-sm">A</span>
+              <span class="avatar avatar-md">BH</span>
+              <span class="avatar avatar-lg">DL</span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Timeline</p>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-title">Deployed to production</span>
+                <span class="timeline-meta">2m ago · v1.4.2</span>
+                <span class="timeline-body">All health checks passed. 3 instances running.</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-title">Build completed</span>
+                <span class="timeline-meta">5m ago</span>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-title">Push to main</span>
+                <span class="timeline-meta">6m ago · abc1234</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">List Group</p>
+            <ul class="list-group" style="max-width: 400px;">
+              <li class="list-item"><span class="list-title">api-gateway</span><span class="badge badge-success badge-dot">running</span></li>
+              <li class="list-item"><span class="list-title">worker-queue</span><span class="badge badge-warning badge-dot">degraded</span></li>
+              <li class="list-item"><span class="list-title">billing-api</span><span class="badge badge-danger badge-dot">stopped</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feedback Additions -->
+    <section class="docs-section" id="feedback-additions">
+      <div class="docs-grid">
+        <div class="docs-label">Feedback Additions</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Spinner</p>
+            <div class="cluster">
+              <span class="spinner spinner-sm"></span>
+              <span class="spinner"></span>
+              <span class="spinner spinner-lg"></span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Skeleton</p>
+            <div class="stack stack-sm" style="max-width: 300px;">
+              <div class="cluster cluster-sm">
+                <div class="skeleton skeleton-circle"></div>
+                <div style="flex:1" class="stack stack-xs">
+                  <div class="skeleton" style="width: 60%;"></div>
+                  <div class="skeleton skeleton-sm"></div>
+                </div>
+              </div>
+              <div class="skeleton skeleton-lg"></div>
+              <div class="skeleton"></div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Banner</p>
+            <div class="banner banner-info">
+              <div><span class="banner-title">New region available.</span> <span class="banner-body">Deploy to ap-southeast-1 is now supported.</span></div>
+              <button class="btn btn-sm">Learn more</button>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Tooltip</p>
+            <div class="cluster">
+              <span class="tooltip" data-tip="Copies to clipboard">Hover me</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accordion -->
+    <section class="docs-section" id="accordion">
+      <div class="docs-grid">
+        <div class="docs-label">Accordion</div>
+        <div style="max-width: 480px;">
+          <div class="accordion">
+            <details open>
+              <summary>How do I install wrkbnch?</summary>
+              <div class="accordion-body">Run <code>npm install wrkbnch-css</code> and link the stylesheet in your HTML head.</div>
+            </details>
+            <details>
+              <summary>Does it support dark mode?</summary>
+              <div class="accordion-body">Yes. Use <code>data-mode="dark"</code> on the html element, or omit it for automatic system preference.</div>
+            </details>
+            <details>
+              <summary>Can I use it with React/Vue?</summary>
+              <div class="accordion-body">Absolutely. wrkbnch is pure CSS — it works with any framework or none at all.</div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons & Badges Additions -->
+    <section class="docs-section" id="buttons-badges">
+      <div class="docs-grid">
+        <div class="docs-label">Buttons &amp; Badges+</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Button Group</p>
+            <div class="button-group">
+              <button class="btn">Day</button>
+              <button class="btn">Week</button>
+              <button class="btn btn-primary">Month</button>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Tags</p>
+            <div class="cluster">
+              <span class="tag">node.js <button>×</button></span>
+              <span class="tag">typescript <button>×</button></span>
+              <span class="tag">docker <button>×</button></span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Version Badge &amp; Cmd Pill</p>
+            <div class="cluster">
+              <span class="version-badge">v1.1.0</span>
+              <span class="cmd-pill"><span class="dollar">$</span> npm run build</span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Kbd</p>
+            <div class="cluster">
+              <kbd>⌘</kbd> <kbd>K</kbd>
+              <span class="text-muted body-sm">to open command palette</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography & Layout Additions -->
+    <section class="docs-section" id="typography-additions">
+      <div class="docs-grid">
+        <div class="docs-label">Typography+</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Gradient Text</p>
+            <p class="heading-xl gradient-text">Ship faster, break less.</p>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Quote Block</p>
+            <blockquote class="quote-block">
+              The best interface is the one that gets out of your way.
+              <cite>— Engineering principle</cite>
+            </blockquote>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Styled List</p>
+            <ul class="styled-list">
+              <li>Zero-config deployments from git push</li>
+              <li>Automatic SSL and edge caching</li>
+              <li>Built-in observability and log streaming</li>
+            </ul>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Divider with Label</p>
+            <div class="divider-label">or continue with</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer -->

@@ -149,14 +149,24 @@ Choose the right component for the data:
 | List of records with columns | `.table` | Cards |
 | Key-value metadata | `.kv-list` | Table |
 | Status with category | `.badge` with `.badge-dot` | Colored text alone |
-| Sequential events | `.log-viewer` | Table |
+| Sequential events | `.timeline` or `.log-viewer` | Table |
 | Single metric with context | `.card` with `.heading-xl` | Badge |
 | User action needed | `.btn-primary` in context | Floating FAB |
-| Long-running result | `.progress` + status text | Spinner alone |
+| Long-running result | `.spinner` + status text | Spinner alone |
 | Nothing to show | `.empty-state` with action | Hidden section |
 | Confirmation needed | `.dialog` | Inline form |
-| System feedback | `.toast` | Alert in content flow |
+| System feedback | `.toast` or `.banner` | Alert in content flow |
 | Multiple actions available | `.command-palette` | Dropdown menu |
+| Boolean settings | `.switch` | Checkbox |
+| Multi-option selection | `.segmented-control` | Radio group |
+| Progressive disclosure | `.accordion` | Tabs for 2 items |
+| Person/entity identity | `.avatar` + name text | Icon alone |
+| Step-by-step process | `.stepper` | Numbered list |
+| Vertical navigation | `.sidebar-nav` | Horizontal tabs |
+| Removable categories | `.tag` | Badge |
+| Loading placeholder | `.skeleton` | Spinner for layout |
+| File upload | `.dropzone` | Bare input[file] |
+| Keyboard shortcuts | `kbd` element | Code block |
 
 ---
 
