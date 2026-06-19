@@ -21,7 +21,7 @@
     .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-3); }
     .color-swatch { border-radius: var(--radius-md); overflow: hidden; border: var(--border-subtle); }
     .color-swatch-block { height: 64px; }
-    .color-swatch-info { padding: var(--space-2) var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); background: var(--color-surface-raised); }
+    .color-swatch-info { padding: var(--space-2) var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); background: var(--color-surface-raised); color: var(--color-text); font-weight: 500; }
     .type-sample { margin-bottom: var(--space-4); }
     .component-row { margin-bottom: var(--space-6); }
     .theme-toggle { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; }
@@ -46,6 +46,10 @@
         <a href="https://www.npmjs.com/package/wrkbnch-css" class="btn">npm</a>
         <code class="mono" style="padding: var(--space-2) var(--space-3);">npm install wrkbnch-css</code>
       </div>
+      <div class="cluster" style="margin-top: var(--space-3);">
+        <span class="mono-label">Copilot Skill:</span>
+        <code class="mono" style="padding: var(--space-2) var(--space-3);">npx skills add Laskewitz/wrkbnch@wrkbnch</code>
+      </div>
     </div>
   </header>
 
@@ -68,11 +72,11 @@
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #1a1a18;"></div>
-              <div class="color-swatch-info" style="color: #f0ede8;">--ink<br>#1a1a18</div>
+              <div class="color-swatch-info">--ink<br>#1a1a18</div>
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #2d2d2a;"></div>
-              <div class="color-swatch-info" style="color: #f0ede8;">--charcoal<br>#2d2d2a</div>
+              <div class="color-swatch-info">--charcoal<br>#2d2d2a</div>
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #c45d2c;"></div>
@@ -80,19 +84,19 @@
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #4a6670;"></div>
-              <div class="color-swatch-info" style="color: #f0ede8;">--slate<br>#4a6670</div>
+              <div class="color-swatch-info">--slate<br>#4a6670</div>
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #5a7a52;"></div>
-              <div class="color-swatch-info" style="color: #f0ede8;">--moss<br>#5a7a52</div>
+              <div class="color-swatch-info">--moss<br>#5a7a52</div>
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #b83a3a;"></div>
-              <div class="color-swatch-info" style="color: #f0ede8;">--danger<br>#b83a3a</div>
+              <div class="color-swatch-info">--danger<br>#b83a3a</div>
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #a86b1d;"></div>
-              <div class="color-swatch-info" style="color: #f0ede8;">--warning<br>#a86b1d</div>
+              <div class="color-swatch-info">--warning<br>#a86b1d</div>
             </div>
           </div>
         </div>
