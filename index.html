@@ -633,7 +633,6 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
                 var timer;
                 function pos() {
                   var pct = (input.value - input.min) / (input.max - input.min);
-                  // Thumb doesn't reach edges — offset by ~8px (half thumb width)
                   var thumbHalf = 8;
                   var w = input.offsetWidth;
                   var px = thumbHalf + pct * (w - thumbHalf * 2);
@@ -644,14 +643,22 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
                   clearTimeout(timer);
                   label.classList.add('visible');
                 }
-                function hide() {
+                function scheduleHide() {
+                  clearTimeout(timer);
                   timer = setTimeout(function() { label.classList.remove('visible'); }, 1000);
                 }
                 input.addEventListener('input', function() { pos(); show(); });
-                input.addEventListener('mousedown', show);
-                input.addEventListener('touchstart', show);
-                input.addEventListener('mouseup', hide);
-                input.addEventListener('touchend', hide);
+                // change fires reliably when the user commits a value (lets go)
+                input.addEventListener('change', scheduleHide);
+                // pointerdown on the input shows the label
+                input.addEventListener('pointerdown', function() {
+                  show();
+                  // listen for pointerup on document so we catch it even if pointer leaves
+                  document.addEventListener('pointerup', function onUp() {
+                    document.removeEventListener('pointerup', onUp);
+                    scheduleHide();
+                  });
+                });
                 pos();
               })();
             </script>
