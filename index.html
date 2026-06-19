@@ -339,6 +339,17 @@
         </div>
       </div>
     </section>
+    <script>
+      // Make nav demos interactive: click moves .active class
+      document.querySelectorAll('.nav, .tabs, .pagination, .sidebar-nav').forEach(function(nav) {
+        nav.addEventListener('click', function(e) {
+          var item = e.target.closest('a, button');
+          if (!item || item.classList.contains('breadcrumb-separator')) return;
+          nav.querySelectorAll('a, button').forEach(function(el) { el.classList.remove('active'); });
+          item.classList.add('active');
+        });
+      });
+    </script>
 
     <!-- Code & Terminal -->
     <section class="docs-section" id="code">
