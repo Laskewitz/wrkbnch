@@ -14,7 +14,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="wrkbnch.css">
   <style>
-    .docs-section { padding-block: var(--space-12); border-bottom: var(--border-subtle); }
+    :root { --docs-sidebar-width: 220px; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--space-6);
+    }
+
+    .docs-main { margin-left: var(--docs-sidebar-width); min-width: 0; }
+    .docs-section { padding-block: var(--space-12); border-bottom: var(--border-subtle); scroll-margin-top: var(--space-6); }
     .docs-section:last-child { border-bottom: none; }
     .docs-grid { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-8); align-items: start; }
     .docs-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; padding-top: var(--space-1); }
@@ -24,17 +32,240 @@
     .color-swatch-info { padding: var(--space-2) var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); background: var(--color-surface-raised); color: var(--color-text); font-weight: 500; }
     .type-sample { margin-bottom: var(--space-4); }
     .component-row { margin-bottom: var(--space-6); }
-    .theme-toggle { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; }
+
+    .docs-sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--docs-sidebar-width);
+      overflow-y: auto;
+      background: linear-gradient(180deg, var(--color-surface-raised) 0%, var(--color-accent-tint) 18%, var(--color-surface) 58%, var(--color-bg) 100%);
+      border-right: var(--border-subtle);
+      z-index: 40;
+    }
+
+    .docs-sidebar-inner { padding: var(--space-4) var(--space-3) var(--space-8); }
+
+    .docs-sidebar-head {
+      position: sticky;
+      top: 0;
+      padding: var(--space-2) 0 var(--space-5);
+      margin-bottom: var(--space-1);
+      background: linear-gradient(180deg, var(--color-surface-raised) 0%, var(--color-surface) 90%, transparent 100%);
+      border-bottom: 1px solid rgba(74, 102, 112, 0.12);
+    }
+
+    .docs-sidebar-brand {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .docs-sidebar-brand:hover { color: var(--color-accent-text, #c45d2c); }
+
+    .docs-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: var(--space-3);
+      padding: 0.45rem 0.8rem;
+      border: var(--border-thin);
+      border-radius: 999px;
+      background: var(--color-surface-raised);
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default), border-color var(--duration-fast) var(--ease-default);
+    }
+
+    .docs-mode-toggle:hover {
+      background: var(--color-accent-tint);
+      color: var(--color-accent-text, #c45d2c);
+      border-color: var(--color-accent);
+    }
+
+    .docs-mobile-toggle {
+      display: none;
+      position: fixed;
+      top: var(--space-4);
+      right: var(--space-4);
+      z-index: 45;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .docs-sidebar-nav { display: grid; gap: var(--space-1); }
+
+    .docs-nav-group { margin: 0; }
+
+    .docs-nav-group summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      list-style: none;
+      border-radius: var(--radius-md);
+      color: var(--color-text);
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default);
+    }
+
+    .docs-nav-group summary::-webkit-details-marker { display: none; }
+    .docs-nav-group summary::marker { content: ''; }
+    .docs-nav-group summary::after {
+      content: '+';
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+
+    .docs-nav-group[open] > summary::after {
+      content: '−';
+      color: var(--color-accent-text, #c45d2c);
+    }
+
+    .docs-nav-group > summary:hover,
+    .docs-nav-group.is-active > summary {
+      background: var(--color-accent-tint);
+      color: var(--color-accent-text, #c45d2c);
+    }
+
+    .docs-nav-children {
+      display: grid;
+      gap: 2px;
+      padding-bottom: var(--space-2);
+    }
+
+    .docs-sidebar-link {
+      display: block;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      color: var(--color-text-muted);
+      font-size: 13px;
+      text-decoration: none;
+      transition: background var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default);
+    }
+
+    .docs-sidebar-link:hover,
+    .docs-sidebar-link.is-active,
+    .docs-sidebar-link[aria-current="location"] {
+      color: var(--color-accent-text, #c45d2c);
+      background: var(--color-accent-tint);
+    }
+
+    .docs-sidebar-link--parent {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+    }
+
+    .docs-sidebar-link--child {
+      padding-left: 28px;
+      font-size: 12px;
+    }
+
+    .docs-sidebar-note {
+      padding: 4px 28px 0;
+      color: var(--color-text-muted);
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+
     @media (max-width: 768px) {
+      .docs-sidebar { display: none; }
+      .docs-mobile-toggle { display: inline-flex; }
+      .docs-main { margin-left: 0; }
       .docs-grid { grid-template-columns: 1fr; gap: var(--space-4); }
     }
   </style>
 </head>
 <body>
-  <button class="btn btn-sm theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ Theme</button>
+  <aside class="docs-sidebar" aria-label="Documentation navigation">
+    <div class="docs-sidebar-inner">
+      <div class="docs-sidebar-head">
+        <a class="docs-sidebar-brand" href="#top">wrkbnch</a>
+        <button class="docs-mode-toggle" type="button" data-mode-toggle aria-label="Switch to dark mode">mode: light</button>
+      </div>
+      <nav class="docs-sidebar-nav" aria-label="Section navigation">
+        <a class="docs-sidebar-link docs-sidebar-link--parent" href="#top">Getting Started</a>
 
-  <!-- Header -->
-  <header class="container py-16">
+        <details class="docs-nav-group" open>
+          <summary>Foundations</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#colors">Color</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#typography">Typography</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#layout">Layout</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group" open>
+          <summary>Components</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#buttons">Buttons</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#cards">Cards</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#badges">Badges</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#alerts">Alerts</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#forms">Forms</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#enhanced-forms">Enhanced Forms</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#tables">Tables</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#navigation">Navigation</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#nav-additions">Nav Additions</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#code">Code &amp; Terminal</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#hero">Hero</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#accordion">Accordion</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#buttons-badges">Buttons &amp; Badges+</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#typography-additions">Typography+</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#command-palette">Command Palette</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group" open>
+          <summary>Data Display</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-display">Data Display</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-additions">Data Additions</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group" open>
+          <summary>Feedback</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#feedback-additions">Feedback</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group" open>
+          <summary>Patterns</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#patterns">Patterns</a>
+          </div>
+          <p class="docs-sidebar-note">Pricing, auth, and onboarding patterns.</p>
+        </details>
+
+        <details class="docs-nav-group" open>
+          <summary>Utilities</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#utilities">Utilities</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </aside>
+
+  <button class="docs-mode-toggle docs-mobile-toggle" type="button" data-mode-toggle aria-label="Switch to dark mode">mode: light</button>
+
+  <div class="docs-main">
+    <!-- Header -->
+    <header class="container py-16" id="top">
     <div class="stack stack-lg">
       <div>
         <p class="mono-label mb-2">Design System v1.0</p>
@@ -341,12 +572,21 @@
     </section>
     <script>
       // Make nav demos interactive: click moves .active class
-      document.querySelectorAll('.nav, .tabs, .pagination, .sidebar-nav').forEach(function(nav) {
+      document.querySelectorAll('.nav, .tabs, .pagination, .sidebar-nav, .nav-rail').forEach(function(nav) {
         nav.addEventListener('click', function(e) {
           var item = e.target.closest('a, button');
           if (!item || item.classList.contains('breadcrumb-separator')) return;
-          nav.querySelectorAll('a, button').forEach(function(el) { el.classList.remove('active'); });
+          nav.querySelectorAll('a, button').forEach(function(el) {
+            el.classList.remove('active');
+            el.removeAttribute('aria-current');
+            if (el.hasAttribute('aria-selected')) el.setAttribute('aria-selected', 'false');
+          });
           item.classList.add('active');
+          if (nav.classList.contains('tabs')) {
+            item.setAttribute('aria-selected', 'true');
+          } else if (!(nav.classList.contains('pagination') && /[←→]/.test(item.textContent.trim()))) {
+            item.setAttribute('aria-current', 'page');
+          }
         });
       });
     </script>
@@ -389,6 +629,65 @@ dist/app.js       84.21 kB │ gzip: 27.83 kB
 dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
               <div class="terminal-comment"># Build completed in 1.8s</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Display -->
+    <section class="docs-section" id="data-display">
+      <div class="docs-grid">
+        <div class="docs-label">Data Display</div>
+        <div class="stack">
+          <p class="body-sm text-muted" style="max-width: 58ch;">Operational interfaces need dense state that still scans fast — progress, key-value context, and compact snapshots for build and deploy tooling.</p>
+          <div class="cluster">
+            <span class="badge">Progress</span>
+            <span class="badge">Description List</span>
+            <span class="badge">Status</span>
+            <span class="badge">Metadata</span>
+          </div>
+          <div class="component-row" style="max-width: 560px;">
+            <p class="mono-label mb-2">Progress Bar</p>
+            <div class="card card-sm">
+              <div class="stack stack-sm">
+                <div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+                    <span class="body-sm">Canary rollout</span>
+                    <span class="mono-sm text-muted">18%</span>
+                  </div>
+                  <div class="progress mt-2"><div class="progress-fill" style="--value: 18%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+                    <span class="body-sm">Schema backfill</span>
+                    <span class="mono-sm text-muted">64%</span>
+                  </div>
+                  <div class="progress mt-2"><div class="progress-fill" style="--value: 64%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+                    <span class="body-sm">Incident runbook coverage</span>
+                    <span class="mono-sm text-muted">92%</span>
+                  </div>
+                  <div class="progress mt-2"><div class="progress-fill" style="--value: 92%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Description List</p>
+            <dl class="description-list">
+              <dt>primary region</dt>
+              <dd>eu-west-1 · 3 edge POPs warmed</dd>
+              <dt>runtime</dt>
+              <dd>Node.js 22 · Bun workers for previews</dd>
+              <dt>deploy SHA</dt>
+              <dd><code>91f4c2d</code> · built from <strong>release/train-24</strong></dd>
+              <dt>rollback window</dt>
+              <dd>30 minutes · automated snapshot retained</dd>
+              <dt>status</dt>
+              <dd><span class="badge badge-success badge-dot">ready for promotion</span></dd>
+            </dl>
           </div>
         </div>
       </div>
@@ -631,6 +930,20 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
               <span class="input-affix">/api</span>
             </div>
           </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">OTP Input</p>
+            <div class="stack stack-sm">
+              <div class="otp-row" aria-label="Deployment verification code">
+                <input class="otp-input" type="text" inputmode="numeric" maxlength="1" value="4" aria-label="Digit 1">
+                <input class="otp-input" type="text" inputmode="numeric" maxlength="1" value="9" aria-label="Digit 2">
+                <input class="otp-input" type="text" inputmode="numeric" maxlength="1" value="2" aria-label="Digit 3">
+                <input class="otp-input" type="text" inputmode="numeric" maxlength="1" value="1" aria-label="Digit 4">
+                <input class="otp-input" type="text" inputmode="numeric" maxlength="1" value="7" aria-label="Digit 5">
+                <input class="otp-input" type="text" inputmode="numeric" maxlength="1" value="3" aria-label="Digit 6">
+              </div>
+              <p class="body-sm text-muted">Deploy approvals, device verification, or secure console access.</p>
+            </div>
+          </div>
           <div class="component-row" style="max-width: 360px;">
             <p class="mono-label mb-2">Range Slider</p>
             <div class="range-field" style="max-width: 360px;">
@@ -701,6 +1014,15 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
             </div>
           </div>
           <div class="component-row">
+            <p class="mono-label mb-2">Nav Rail</p>
+            <div class="nav-rail" aria-label="Workspace sections">
+              <a href="javascript:void(0)" class="active" aria-current="page" aria-label="Overview">⌂</a>
+              <a href="javascript:void(0)" aria-label="Deployments">⇄</a>
+              <a href="javascript:void(0)" aria-label="Logs">☰</a>
+              <a href="javascript:void(0)" aria-label="Settings">⚙</a>
+            </div>
+          </div>
+          <div class="component-row">
             <p class="mono-label mb-2">Stepper</p>
             <div class="stepper">
               <div class="step done"><div class="step-circle">1</div><span>Config</span></div>
@@ -756,6 +1078,107 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
               <li class="list-item"><span class="list-title">billing-api</span><span class="badge badge-danger badge-dot">stopped</span></li>
             </ul>
           </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Calendar Card</p>
+            <div class="calendar-card">
+              <div class="calendar-head">
+                <div>
+                  <p class="heading-sm">June 2026</p>
+                  <p class="body-sm text-muted">Release freeze begins next week.</p>
+                </div>
+                <span class="badge badge-accent">Sprint 24</span>
+              </div>
+              <div class="calendar-grid">
+                <div class="dow">Mon</div>
+                <div class="dow">Tue</div>
+                <div class="dow">Wed</div>
+                <div class="dow">Thu</div>
+                <div class="dow">Fri</div>
+                <div class="dow">Sat</div>
+                <div class="dow">Sun</div>
+                <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div>
+                <div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div>
+                <div>15</div><div>16</div><div>17</div><div>18</div><div class="today">19</div><div>20</div><div>21</div>
+                <div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div><div>28</div>
+                <div>29</div><div>30</div><div class="muted">1</div><div class="muted">2</div><div class="muted">3</div><div class="muted">4</div><div class="muted">5</div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Bar Chart</p>
+            <div class="chart-card">
+              <div class="chart-top">
+                <div>
+                  <p class="mono-label mb-2">Weekly requests</p>
+                  <p class="heading-xl">12.8M</p>
+                </div>
+                <div class="stack stack-xs" style="text-align: right;">
+                  <span class="badge badge-info">+14% WoW</span>
+                  <span class="body-sm text-muted">edge + api combined</span>
+                </div>
+              </div>
+              <div>
+                <div class="bar-chart" style="height: 14rem;">
+                  <div class="chart-bar" style="--h: 34%; --bar: var(--slate);" title="Mon · 1.8M requests"></div>
+                  <div class="chart-bar" style="--h: 46%; --bar: var(--moss);" title="Tue · 2.3M requests"></div>
+                  <div class="chart-bar" style="--h: 58%; --bar: var(--color-accent);" title="Wed · 2.9M requests"></div>
+                  <div class="chart-bar" style="--h: 72%; --bar: var(--slate);" title="Thu · 3.4M requests"></div>
+                  <div class="chart-bar" style="--h: 64%; --bar: var(--moss);" title="Fri · 3.1M requests"></div>
+                  <div class="chart-bar" style="--h: 52%; --bar: var(--color-accent);" title="Sat · 2.6M requests"></div>
+                  <div class="chart-bar" style="--h: 81%; --bar: var(--slate);" title="Sun · 3.8M requests"></div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-2);">
+                  <span class="mono-sm text-muted text-center">Mon</span>
+                  <span class="mono-sm text-muted text-center">Tue</span>
+                  <span class="mono-sm text-muted text-center">Wed</span>
+                  <span class="mono-sm text-muted text-center">Thu</span>
+                  <span class="mono-sm text-muted text-center">Fri</span>
+                  <span class="mono-sm text-muted text-center">Sat</span>
+                  <span class="mono-sm text-muted text-center">Sun</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Figure</p>
+            <figure class="figure-demo">
+              <div class="image-frame">
+                <svg viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Deploy review board preview">
+                  <rect width="160" height="90" rx="12" fill="#f5f2ec"/>
+                  <rect x="10" y="10" width="36" height="70" rx="8" fill="#e8dcc8"/>
+                  <circle cx="28" cy="24" r="8" fill="#c45d2c"/>
+                  <rect x="18" y="40" width="20" height="6" rx="3" fill="#4a6670" opacity="0.75"/>
+                  <rect x="16" y="52" width="24" height="6" rx="3" fill="#4a6670" opacity="0.5"/>
+                  <rect x="58" y="12" width="92" height="16" rx="6" fill="#1a1a18" opacity="0.08"/>
+                  <rect x="58" y="36" width="42" height="18" rx="6" fill="#c45d2c" opacity="0.9"/>
+                  <rect x="108" y="36" width="42" height="18" rx="6" fill="#4a6670" opacity="0.86"/>
+                  <rect x="58" y="62" width="92" height="16" rx="8" fill="#e8dcc8"/>
+                  <path d="M66 68 L82 60 L98 66 L118 48 L142 54" fill="none" stroke="#5a7a52" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <figcaption>Deploy review figure with a focused sidebar, surfaced metrics, and a release trend line — the kind of screenshot you drop into a runbook or changelog.</figcaption>
+            </figure>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Stats Row</p>
+            <div class="stats-row">
+              <div>
+                <span class="mono-label">median build</span>
+                <strong>2.4s</strong>
+                <p>Across 184 runs in the current release train.</p>
+              </div>
+              <div>
+                <span class="mono-label">approval SLA</span>
+                <strong>11m</strong>
+                <p>Time from deploy request to production sign-off.</p>
+              </div>
+              <div>
+                <span class="mono-label">rollback rate</span>
+                <strong>0.8%</strong>
+                <p>Last 30 days, excluding planned reversions.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -798,6 +1221,48 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
             <p class="mono-label mb-2">Tooltip</p>
             <div class="cluster">
               <span class="tooltip" data-tip="Copies to clipboard">Hover me</span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Hover Card</p>
+            <div class="hover-card-wrap">
+              <button class="btn hover-card-trigger" type="button">worker-queue</button>
+              <div class="hover-card-panel">
+                <p class="mono-label mb-2">service snapshot</p>
+                <p class="heading-sm">worker-queue / eu-west-1</p>
+                <p class="body-sm text-muted mt-2">Redis-backed job runners with 3 consumers online, a 12ms median ack time, and one hot partition under watch.</p>
+                <div class="cluster mt-4">
+                  <span class="badge badge-warning badge-dot">degraded</span>
+                  <span class="badge badge-info">p95 148ms</span>
+                  <span class="badge">depth 1.2k</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Context Menu</p>
+            <div style="max-width: 560px; padding: var(--space-4); border: 1px dashed var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface);">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4);">
+                <div class="stack stack-sm">
+                  <div>
+                    <p class="heading-sm">artifact.tar.gz</p>
+                    <p class="body-sm text-muted mt-2">Context actions for release assets, signed builds, or exported traces.</p>
+                  </div>
+                  <div class="cluster cluster-sm">
+                    <span class="badge">sha256 ready</span>
+                    <span class="badge badge-success badge-dot">verified</span>
+                  </div>
+                </div>
+                <div style="position: relative; flex-shrink: 0;">
+                  <button class="btn btn-sm" type="button">⋯</button>
+                  <div class="context-menu">
+                    <a href="javascript:void(0)">Open preview</a>
+                    <a href="javascript:void(0)">Copy SHA256</a>
+                    <a href="javascript:void(0)">Promote to release</a>
+                    <button type="button">Archive build</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -927,6 +1392,203 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       </div>
     </section>
 
+    <section class="docs-section" id="patterns">
+      <div class="docs-grid">
+        <div class="docs-label">Patterns</div>
+        <div class="stack">
+          <p class="body-sm text-muted" style="max-width: 58ch;">Compound layouts for product pages, onboarding, and account workflows — ready for launch screens, docs hubs, and internal tooling.</p>
+          <div class="component-row">
+            <p class="mono-label mb-2">Pricing Grid</p>
+            <div class="pricing-grid">
+              <div class="pricing-card">
+                <div>
+                  <p class="mono-label mb-2">Sandbox</p>
+                  <p class="price">$0<small>/month</small></p>
+                  <p class="body-sm text-muted mt-2">For prototypes, concept dashboards, and one-off client previews.</p>
+                </div>
+                <ul>
+                  <li>1 private workspace</li>
+                  <li>Starter token set</li>
+                  <li>Email-only support</li>
+                </ul>
+                <button class="btn" type="button">Start free</button>
+              </div>
+              <div class="pricing-card popular">
+                <span class="popular-badge">popular</span>
+                <div>
+                  <p class="mono-label mb-2">Team</p>
+                  <p class="price">$24<small>/seat</small></p>
+                  <p class="body-sm text-muted mt-2">For product squads shipping docs, control panels, and review surfaces every week.</p>
+                </div>
+                <ul>
+                  <li>Unlimited component exports</li>
+                  <li>Dark mode + brand tokens</li>
+                  <li>Review-ready demo pages</li>
+                </ul>
+                <button class="btn btn-primary" type="button">Choose team</button>
+              </div>
+              <div class="pricing-card">
+                <div>
+                  <p class="mono-label mb-2">Fleet</p>
+                  <p class="price">$79<small>/project</small></p>
+                  <p class="body-sm text-muted mt-2">For platform groups standardizing internal tooling across multiple product lines.</p>
+                </div>
+                <ul>
+                  <li>Shared theme registry</li>
+                  <li>Priority migration support</li>
+                  <li>Design review office hours</li>
+                </ul>
+                <button class="btn" type="button">Talk to us</button>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Testimonial Card</p>
+            <div class="testimonial-card">
+              <blockquote>“wrkbnch gave our deploy console a point of view. It feels handcrafted, not like another gray dashboard generated from the same starter template.”</blockquote>
+              <div class="testimonial-person">
+                <div class="testimonial-avatar">
+                  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rina Kato">
+                    <rect width="48" height="48" rx="24" fill="#e8dcc8"/>
+                    <text x="24" y="29" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="700" fill="#4a6670">RK</text>
+                  </svg>
+                </div>
+                <div>
+                  <p class="heading-sm">Rina Kato</p>
+                  <p class="body-sm text-muted">Staff Engineer, Northline Build Platform</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Newsletter Form</p>
+            <form class="newsletter-form" action="javascript:void(0)">
+              <input type="email" value="dispatch@wrkbnch.dev" aria-label="Email address">
+              <button class="btn btn-primary" type="submit">Join dispatch</button>
+            </form>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Auth Card</p>
+            <div class="auth-card">
+              <div class="stack stack-sm">
+                <div>
+                  <p class="mono-label mb-2">Operator access</p>
+                  <p class="heading-sm">Sign in to wrkbnch Cloud</p>
+                  <p class="body-sm text-muted mt-2">Approve deploys, inspect diffs, and stream logs from one control room.</p>
+                </div>
+              </div>
+              <form action="javascript:void(0)">
+                <div class="form-group">
+                  <label class="form-label">Workspace</label>
+                  <input class="form-input" type="text" value="release-studio">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input class="form-input" type="email" value="ops@northline.dev">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">One-time passcode</label>
+                  <input class="form-input" type="password" placeholder="••••••">
+                </div>
+                <button class="btn btn-primary" type="submit">Enter control room</button>
+              </form>
+              <div class="auth-links">
+                <a class="styled-link" href="javascript:void(0)">Forgot password</a>
+                <a class="styled-link" href="javascript:void(0)">Use SSO</a>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">CTA Band</p>
+            <div class="cta-band">
+              <p class="mono-label" style="color: rgba(255, 255, 255, 0.78);">ship warmer interfaces</p>
+              <h3 class="display-lg" style="color: #fff;">Launch a better default.</h3>
+              <p>Design docs hubs, onboarding flows, pricing pages, and operator consoles that feel specific from day one.</p>
+              <button class="btn" type="button">Start from the starter kit</button>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Logo Cloud</p>
+            <div class="logo-cloud">
+              <div class="logo-cloud-label">Used alongside the tools shipping modern product teams</div>
+              <div class="logo-cloud-row">
+                <span class="logo-pill">github</span>
+                <span class="logo-pill">openapi</span>
+                <span class="logo-pill">grafana</span>
+                <span class="logo-pill">supabase</span>
+                <span class="logo-pill">fly.io</span>
+                <span class="logo-pill">cloudflare</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">FAQ List</p>
+            <div class="faq-list">
+              <details open>
+                <summary>Does wrkbnch need JavaScript to render components?</summary>
+                <p>No. Components are pure CSS and semantic HTML, so they drop into static pages, React apps, and server-rendered tools without a client runtime.</p>
+              </details>
+              <details>
+                <summary>Can I swap in brand tokens for a client workspace?</summary>
+                <p>Yes. The system is token-driven, so you can tune accent, neutrals, and radius decisions without rewriting component structure.</p>
+              </details>
+              <details>
+                <summary>Is it suitable for both docs and internal dashboards?</summary>
+                <p>That is the sweet spot. wrkbnch is designed for product surfaces that mix editorial tone with dense operational data.</p>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs-section" id="utilities">
+      <div class="docs-grid">
+        <div class="docs-label">Utilities</div>
+        <div class="stack">
+          <p class="body-sm text-muted" style="max-width: 58ch;">Use utilities for quick nudges in spacing, overflow, text tone, and small branding touches.</p>
+          <div class="card card-sm" style="max-width: 560px;">
+            <pre><code>.mt-4 · .mb-2 · .text-muted · .text-center
+.py-12 · .justify-between · .bg-accent-tint</code></pre>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Scroll Area</p>
+            <div class="card card-sm" style="max-width: 460px;">
+              <div class="scroll-area stack stack-sm">
+                <div class="panel-inset"><strong>14:03</strong> · Preview build started for <code>docs/release-notes</code></div>
+                <div class="panel-inset"><strong>14:04</strong> · Asset fingerprinting complete · 128 files hashed</div>
+                <div class="panel-inset"><strong>14:05</strong> · Edge cache primed in <code>eu-west-1</code> and <code>us-east-1</code></div>
+                <div class="panel-inset"><strong>14:06</strong> · Lighthouse budget check passed · score 98</div>
+                <div class="panel-inset"><strong>14:07</strong> · Signed artifact uploaded to <code>release-bucket</code></div>
+                <div class="panel-inset"><strong>14:08</strong> · Canary traffic shifted from 10% to 25%</div>
+                <div class="panel-inset"><strong>14:09</strong> · Synthetic probe latency stabilized under 120ms</div>
+                <div class="panel-inset"><strong>14:10</strong> · Release promoted to production lane</div>
+                <div class="panel-inset"><strong>14:11</strong> · Team dispatch sent to <code>#ship-room</code></div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Truncation</p>
+            <div class="card card-sm" style="max-width: 540px;">
+              <p class="mono-label mb-2">Single line</p>
+              <p class="truncate-one mono">release/2026-06-19/eu-west-1/build-orchestrator-canary-with-observability-hooks-and-runbook-links</p>
+              <hr class="separator separator-sm">
+              <p class="mono-label mb-2">Three line clamp</p>
+              <p class="clamp-three body-sm text-muted">This release summary includes the migration plan, smoke test output, cache invalidation steps, and rollback notes for the operator on call. The clamp keeps long editorial copy from breaking a compact dashboard card while still surfacing enough context to judge the state at a glance.</p>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Brand Mark</p>
+            <div class="cluster">
+              <span class="brand-mark sm">▣ wrkbnch</span>
+              <span class="brand-mark md">▣ wrkbnch</span>
+              <span class="brand-mark lg">▣ wrkbnch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer -->
@@ -940,13 +1602,89 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       </div>
     </div>
   </footer>
+  </div>
 
   <script>
-    function toggleTheme() {
+    (function() {
       const html = document.documentElement;
-      const current = html.getAttribute('data-mode');
-      html.setAttribute('data-mode', current === 'dark' ? 'light' : 'dark');
-    }
+      const modeToggles = document.querySelectorAll('[data-mode-toggle]');
+      const navLinks = Array.from(document.querySelectorAll('.docs-sidebar-nav a[href^="#"]'));
+      const sections = navLinks
+        .map(function(link) { return document.querySelector(link.getAttribute('href')); })
+        .filter(Boolean);
+
+      function updateModeButtons(mode) {
+        const nextMode = mode === 'dark' ? 'light' : 'dark';
+        modeToggles.forEach(function(button) {
+          button.textContent = 'mode: ' + mode;
+          button.setAttribute('aria-label', 'Switch to ' + nextMode + ' mode');
+        });
+      }
+
+      function toggleTheme() {
+        const current = html.getAttribute('data-mode') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-mode', next);
+        updateModeButtons(next);
+      }
+
+      function setActiveLink(id) {
+        navLinks.forEach(function(link) {
+          const isActive = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('is-active', isActive);
+          if (isActive) {
+            link.setAttribute('aria-current', 'location');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+
+        document.querySelectorAll('.docs-nav-group').forEach(function(group) {
+          const hasActiveChild = !!group.querySelector('.docs-sidebar-link.is-active');
+          group.classList.toggle('is-active', hasActiveChild);
+          if (hasActiveChild) group.open = true;
+        });
+      }
+
+      modeToggles.forEach(function(button) {
+        button.addEventListener('click', toggleTheme);
+      });
+      updateModeButtons(html.getAttribute('data-mode') === 'dark' ? 'dark' : 'light');
+
+      navLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (!target) return;
+          event.preventDefault();
+          setActiveLink(target.id);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', '#' + target.id);
+          }
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          const visibleEntries = entries
+            .filter(function(entry) { return entry.isIntersecting; })
+            .sort(function(a, b) { return Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top); });
+          if (visibleEntries.length) {
+            setActiveLink(visibleEntries[0].target.id);
+          }
+        }, {
+          rootMargin: '-18% 0px -68% 0px',
+          threshold: [0.15, 0.35, 0.6]
+        });
+
+        sections.forEach(function(section) {
+          observer.observe(section);
+        });
+      }
+
+      const initialTarget = window.location.hash && document.querySelector(window.location.hash);
+      setActiveLink(initialTarget ? initialTarget.id : 'top');
+    })();
   </script>
 </body>
 </html>
