@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.2.0
+
+Design overhaul: escaping the AI-generated aesthetic.
+
+### Breaking: Typography
+- Display font: Bricolage Grotesque (was Fraunces)
+- Body font: Karla (was Instrument Sans)
+- Mono font: JetBrains Mono (was IBM Plex Mono)
+- Update your Google Fonts link accordingly
+
+### Breaking: Color
+- `--chalk` (body bg): now `#ffffff` (was `#f5f2ec` cream)
+- `--sand` (surface): now `#f0ede7` (was `#e8dcc8`)
+- Warmth is carried by accents and typography, not background
+
+### Changed
+- `.gradient-text` renamed to `.accent-text` (solid copper, no gradient)
+- `.brand-mark.lg` uses solid copper instead of gradient text
+- `.quote-block` border thinned from 3px accent to 2px neutral
+- Docs page: dark hero, varied section backgrounds, mobile nav hamburger
+- Docs page: component usage guidance added to key sections
+- Docs page: em-dash copy rewritten for natural cadence
+
 ## 1.1.0
 
 Component expansion — 34 new components added.

@@ -29,9 +29,9 @@ Surface colors: `--sand`, `--chalk`, `--ink`, `--charcoal` provide the warm neut
 
 Three typefaces at specific roles:
 
-- **Instrument Sans** — UI text (body, headings, labels)
-- **IBM Plex Mono** — Code blocks, metadata, structural labels
-- **Fraunces** — Display accents, hero text
+- **Karla** — UI text (body, headings, labels)
+- **JetBrains Mono** — Code blocks, metadata, structural labels
+- **Bricolage Grotesque** — Display accents, hero text
 
 ---
 
@@ -52,7 +52,7 @@ Or link directly:
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
 ```
 
 ### Dark Mode

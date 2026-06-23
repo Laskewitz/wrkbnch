@@ -9,9 +9,9 @@
 
 :root {
   /* --- Color Palette --- */
-  --sand: #e8dcc8;
-  --sand-dim: #ddd0ba;
-  --chalk: #f5f2ec;
+  --sand: #f0ede7;
+  --sand-dim: #e5e1da;
+  --chalk: #ffffff;
   --ink: #1a1a18;
   --charcoal: #2d2d2a;
   --graphite: #3d3d3a;
@@ -60,9 +60,9 @@
   --color-success-text: var(--moss-text);
 
   /* --- Typography --- */
-  --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Cascadia Code', monospace;
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
+  --font-display: 'Bricolage Grotesque', Georgia, 'Times New Roman', serif;
 
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
@@ -2476,18 +2476,16 @@ kbd, .kbd {
 }
 
 /* Gradient Text */
-.gradient-text {
-  background: linear-gradient(135deg, var(--copper), var(--slate));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.accent-text {
+  color: var(--copper);
+  font-weight: var(--weight-bold);
 }
 
 /* Quote Block */
 .quote-block {
   max-width: 560px;
-  padding: var(--space-1) 0 var(--space-1) var(--space-5);
-  border-left: 3px solid var(--color-accent);
+  padding: var(--space-4) 0 var(--space-4) var(--space-5);
+  border-left: 2px solid var(--color-border);
   font-size: var(--text-lg);
   line-height: 1.5;
   letter-spacing: -0.02em;
@@ -3342,12 +3340,8 @@ ol.styled-list li::marker {
 }
 
 .brand-mark.lg {
-  color: transparent;
+  color: var(--copper);
   font-size: clamp(1.5rem, 4vw, 2.5rem);
-  background: linear-gradient(135deg, var(--copper), var(--slate));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* FAQ List */
@@ -3421,10 +3415,7 @@ ol.styled-list li::marker {
 }
 
 [data-mode="dark"] .brand-mark.lg {
-  background: linear-gradient(135deg, var(--copper-dark), var(--slate-dark), var(--moss-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--copper-dark);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -3442,10 +3433,7 @@ ol.styled-list li::marker {
   }
 
   :root:not([data-mode="light"]) .brand-mark.lg {
-    background: linear-gradient(135deg, var(--copper-dark), var(--slate-dark), var(--moss-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--copper-dark);
   }
 }
 

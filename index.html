@@ -11,7 +11,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="wrkbnch.css">
   <style>
     :root { --docs-sidebar-width: 220px; }
@@ -24,6 +24,25 @@
     .docs-main { margin-left: var(--docs-sidebar-width); min-width: 0; }
     .docs-section { padding-block: var(--space-12); border-bottom: var(--border-subtle); scroll-margin-top: var(--space-6); }
     .docs-section:last-child { border-bottom: none; }
+    .docs-section-dark {
+      background: var(--ink);
+      padding: var(--space-16) var(--space-8);
+      margin-inline: calc(-1 * var(--space-8));
+      border-bottom: none;
+    }
+    .docs-section-dark .docs-label { color: rgba(255,255,255,0.5); }
+    .docs-section-dark .heading-xl,
+    .docs-section-dark .heading-sm,
+    .docs-section-dark .body-sm,
+    .docs-section-dark p { color: rgba(255,255,255,0.85); }
+    .docs-section-dark .text-muted { color: rgba(255,255,255,0.5) !important; }
+    .docs-section-surface {
+      background: var(--sand);
+      padding: var(--space-16) var(--space-8);
+      margin-inline: calc(-1 * var(--space-8));
+      border-radius: var(--radius-xl);
+      border-bottom: none;
+    }
     .docs-grid { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-8); align-items: start; }
     .docs-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; padding-top: var(--space-1); }
     .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-3); }
@@ -111,7 +130,27 @@
       top: var(--space-4);
       right: var(--space-4);
       z-index: 45;
+      width: 36px;
+      height: 36px;
+      border: var(--border-thin);
+      border-radius: var(--radius-md);
+      background: var(--color-surface-raised);
+      color: var(--color-text);
+      font-size: 1.1rem;
+      cursor: pointer;
       box-shadow: var(--shadow-sm);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .docs-hero {
+      background: var(--ink);
+      padding: var(--space-20) var(--space-8) var(--space-16);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .docs-hero-inner {
+      max-width: 680px;
     }
 
     /* sidebar-nav styles are in .docs-sidebar-inner block above */
@@ -126,7 +165,7 @@
       list-style: none;
       border-radius: var(--radius-md);
       color: var(--color-text);
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: -0.01em;
       cursor: pointer;
@@ -178,28 +217,25 @@
 
     .docs-sidebar-link--parent {
       font-weight: 600;
-      font-size: 13.5px;
+      font-size: 14px;
       color: var(--color-text);
       letter-spacing: -0.01em;
     }
 
     .docs-sidebar-link--child {
       padding-left: 28px;
-      font-size: 12px;
-    }
-
-    .docs-sidebar-note {
-      padding: 4px 28px 0;
-      color: var(--color-text-muted);
       font-size: 11.5px;
-      line-height: 1.5;
     }
 
     @media (max-width: 768px) {
-      .docs-sidebar { display: none; }
+      .docs-sidebar { transform: translateX(-100%); transition: transform 0.2s ease; }
+      .docs-sidebar.is-open { transform: translateX(0); }
       .docs-mobile-toggle { display: inline-flex; }
       .docs-main { margin-left: 0; }
       .docs-grid { grid-template-columns: 1fr; gap: var(--space-4); }
+      .docs-hero { padding: var(--space-12) var(--space-4) var(--space-10); }
+      .docs-section-dark,
+      .docs-section-surface { margin-inline: calc(-1 * var(--space-4)); padding-inline: var(--space-4); }
     }
   </style>
 </head>
@@ -212,7 +248,7 @@
       <nav class="docs-sidebar-nav" aria-label="Section navigation">
         <a class="docs-sidebar-link docs-sidebar-link--parent" href="#top">Getting Started</a>
 
-        <details class="docs-nav-group" open>
+        <details class="docs-nav-group">
           <summary>Foundations</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#colors">Color</a>
@@ -242,7 +278,7 @@
           </div>
         </details>
 
-        <details class="docs-nav-group" open>
+        <details class="docs-nav-group">
           <summary>Data Display</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-display">Data Display</a>
@@ -250,22 +286,21 @@
           </div>
         </details>
 
-        <details class="docs-nav-group" open>
+        <details class="docs-nav-group">
           <summary>Feedback</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#feedback-additions">Feedback</a>
           </div>
         </details>
 
-        <details class="docs-nav-group" open>
+        <details class="docs-nav-group">
           <summary>Patterns</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#patterns">Patterns</a>
           </div>
-          <p class="docs-sidebar-note">Pricing, auth, and onboarding patterns.</p>
         </details>
 
-        <details class="docs-nav-group" open>
+        <details class="docs-nav-group">
           <summary>Utilities</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#utilities">Utilities</a>
@@ -278,28 +313,22 @@
     </div>
   </aside>
 
-  <button class="docs-mode-toggle docs-mobile-toggle" type="button" data-mode-toggle aria-label="Switch to dark mode">☀</button>
+  <button class="docs-mobile-toggle" type="button" data-sidebar-toggle aria-label="Toggle navigation">☰</button>
 
   <div class="docs-main">
-    <!-- Header -->
-    <header class="container py-16" id="top">
-    <div class="stack stack-lg">
-      <div>
-        <p class="mono-label mb-2">Design System v1.0</p>
-        <h1 class="display-lg">wrkbnch</h1>
-        <p class="body-lg text-muted" style="max-width: 48ch; margin-top: var(--space-3);">A warm, utilitarian CSS design system. No JavaScript, no build step. For interfaces that feel built, not generated.</p>
+    <!-- Hero -->
+    <header class="docs-hero" id="top">
+      <div class="docs-hero-inner">
+        <p class="mono-label" style="color: var(--copper-dark); opacity: 0.9;">Design System v1.1</p>
+        <h1 class="display-lg" style="color: #fff; letter-spacing: -0.03em;">wrkbnch</h1>
+        <p class="body-lg" style="max-width: 44ch; color: rgba(255,255,255,0.72); margin-top: var(--space-3);">A warm, utilitarian CSS design system. No JavaScript, no build step. For interfaces that feel built, not generated.</p>
+        <div class="cluster" style="margin-top: var(--space-6);">
+          <a href="https://github.com/Laskewitz/wrkbnch" class="btn btn-primary">GitHub</a>
+          <a href="https://www.npmjs.com/package/wrkbnch-css" class="btn" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff;">npm</a>
+          <code class="mono" style="padding: var(--space-2) var(--space-3); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); color: rgba(255,255,255,0.85);">npm install wrkbnch-css</code>
+        </div>
       </div>
-      <div class="cluster">
-        <a href="https://github.com/Laskewitz/wrkbnch" class="btn btn-primary">GitHub</a>
-        <a href="https://www.npmjs.com/package/wrkbnch-css" class="btn">npm</a>
-        <code class="mono" style="padding: var(--space-2) var(--space-3);">npm install wrkbnch-css</code>
-      </div>
-      <div class="cluster" style="margin-top: var(--space-3);">
-        <span class="mono-label">Copilot Skill:</span>
-        <code class="mono" style="padding: var(--space-2) var(--space-3);">npx skills add Laskewitz/wrkbnch@wrkbnch</code>
-      </div>
-    </div>
-  </header>
+    </header>
 
   <main class="container">
 
@@ -357,20 +386,20 @@
         <div class="docs-label">Typography</div>
         <div class="stack">
           <div class="type-sample">
-            <p class="mono-label mb-2">Display — Fraunces</p>
+            <p class="mono-label mb-2">Display · Bricolage Grotesque</p>
             <p class="display-lg">The precision workshop</p>
           </div>
           <div class="type-sample">
-            <p class="mono-label mb-2">Heading — Instrument Sans</p>
+            <p class="mono-label mb-2">Heading · Karla</p>
             <p class="heading-xl">Build interfaces that feel specific</p>
           </div>
           <div class="type-sample">
-            <p class="mono-label mb-2">Body — Instrument Sans</p>
-            <p class="body-lg" style="max-width: 50ch;">Dense information made navigable through strict hierarchy. Utilitarian without being cold — warm neutrals instead of blue-grays.</p>
+            <p class="mono-label mb-2">Body · Karla</p>
+            <p class="body-lg" style="max-width: 50ch;">Dense information made navigable through strict hierarchy. Utilitarian without being cold, warm neutrals instead of blue-grays.</p>
           </div>
           <div class="type-sample">
-            <p class="mono-label mb-2">Mono — IBM Plex Mono</p>
-            <p class="mono">font-family: 'IBM Plex Mono', monospace;</p>
+            <p class="mono-label mb-2">Mono · JetBrains Mono</p>
+            <p class="mono">font-family: 'JetBrains Mono', monospace;</p>
           </div>
           <div class="type-sample">
             <p class="mono-label mb-2">Mono Label</p>
@@ -383,7 +412,7 @@
     <!-- Buttons -->
     <section class="docs-section" id="buttons">
       <div class="docs-grid">
-        <div class="docs-label">Buttons</div>
+        <div class="docs-label">Buttons<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Use for primary actions and user decisions. One primary per visible context.</span></div>
         <div class="stack">
           <div class="cluster component-row">
             <button class="btn btn-primary">Primary</button>
@@ -419,7 +448,7 @@
     <!-- Alerts -->
     <section class="docs-section" id="alerts">
       <div class="docs-grid">
-        <div class="docs-label">Alerts</div>
+        <div class="docs-label">Alerts<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Inline system messages. Use toasts for transient feedback instead.</span></div>
         <div class="stack">
           <div class="alert alert-info">Deploy completed successfully in 2.3s. All health checks passed.</div>
           <div class="alert alert-accent">New version available. Run <code>npm update wrkbnch-css</code> to upgrade.</div>
@@ -433,7 +462,7 @@
     <!-- Cards & Panels -->
     <section class="docs-section" id="cards">
       <div class="docs-grid">
-        <div class="docs-label">Cards &amp; Panels</div>
+        <div class="docs-label">Cards &amp; Panels<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Use cards for scannable metrics. Panels for grouped content with headers.</span></div>
         <div class="stack">
           <div class="grid grid-2">
             <div class="card">
@@ -463,7 +492,7 @@
     <!-- Forms -->
     <section class="docs-section" id="forms">
       <div class="docs-grid">
-        <div class="docs-label">Forms</div>
+        <div class="docs-label">Forms<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Standard inputs, selects, textareas. Pair with .form-hint for context.</span></div>
         <div class="stack" style="max-width: 400px;">
           <div class="form-group">
             <label class="form-label">Project name</label>
@@ -545,7 +574,7 @@
     <!-- Navigation -->
     <section class="docs-section" id="navigation">
       <div class="docs-grid">
-        <div class="docs-label">Navigation</div>
+        <div class="docs-label">Navigation<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Horizontal nav for top-level, tabs for in-page views, breadcrumbs for depth.</span></div>
         <div class="stack">
           <div class="component-row">
             <p class="mono-label mb-2">Horizontal Nav</p>
@@ -609,7 +638,7 @@
     </script>
 
     <!-- Code & Terminal -->
-    <section class="docs-section" id="code">
+    <section class="docs-section docs-section-surface" id="code">
       <div class="docs-grid">
         <div class="docs-label">Code &amp; Terminal</div>
         <div class="stack">
@@ -656,7 +685,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       <div class="docs-grid">
         <div class="docs-label">Data Display</div>
         <div class="stack">
-          <p class="body-sm text-muted" style="max-width: 58ch;">Operational interfaces need dense state that still scans fast — progress, key-value context, and compact snapshots for build and deploy tooling.</p>
+          <p class="body-sm text-muted" style="max-width: 58ch;">Operational interfaces need dense state that still scans fast: progress, key-value context, and compact snapshots for build and deploy tooling.</p>
           <div class="cluster">
             <span class="badge">Progress</span>
             <span class="badge">Description List</span>
@@ -783,7 +812,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
           <div class="component-row" style="max-width: 400px;">
             <p class="mono-label mb-2">Progress</p>
             <div class="progress"><div class="progress-bar" style="width: 67%;"></div></div>
-            <p class="mono-sm text-muted mt-2">67% — 134 of 200 tasks complete</p>
+            <p class="mono-sm text-muted mt-2">67% · 134 of 200 tasks complete</p>
           </div>
         </div>
       </div>
@@ -1173,7 +1202,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
                   <path d="M66 68 L82 60 L98 66 L118 48 L142 54" fill="none" stroke="#5a7a52" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <figcaption>Deploy review figure with a focused sidebar, surfaced metrics, and a release trend line — the kind of screenshot you drop into a runbook or changelog.</figcaption>
+              <figcaption>Deploy review figure with a focused sidebar, surfaced metrics, and a release trend line. The kind of screenshot you drop into a runbook or changelog.</figcaption>
             </figure>
           </div>
           <div class="component-row">
@@ -1302,7 +1331,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
             </details>
             <details>
               <summary>Can I use it with React/Vue?</summary>
-              <div class="accordion-body">Absolutely. wrkbnch is pure CSS — it works with any framework or none at all.</div>
+              <div class="accordion-body">Absolutely. wrkbnch is pure CSS, so it works with any framework or none at all.</div>
             </details>
           </div>
         </div>
@@ -1349,13 +1378,13 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
     </section>
 
     <!-- Hero -->
-    <section class="docs-section" id="hero">
+    <section class="docs-section docs-section-dark" id="hero">
       <div class="docs-grid">
         <div class="docs-label">Hero</div>
         <div class="stack">
           <div class="hero hero-accent" style="min-height: auto; padding: var(--space-8) var(--space-4); border-radius: var(--radius-lg); border: var(--border-thin);">
             <div class="hero-content">
-              <h2 class="hero-title gradient-text">Build interfaces that work.</h2>
+              <h2 class="hero-title accent-text">Build interfaces that work.</h2>
               <p class="hero-subtitle">A warm, utilitarian CSS design system for apps that look like they were made by humans.</p>
               <div class="hero-actions">
                 <button class="btn btn-primary">Get started</button>
@@ -1384,7 +1413,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
         <div class="stack">
           <div class="component-row">
             <p class="mono-label mb-2">Gradient Text</p>
-            <p class="heading-xl gradient-text">Ship faster, break less.</p>
+            <p class="heading-xl accent-text">Ship faster, break less.</p>
           </div>
           <div class="component-row">
             <p class="mono-label mb-2">Quote Block</p>
@@ -1413,7 +1442,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       <div class="docs-grid">
         <div class="docs-label">Patterns</div>
         <div class="stack">
-          <p class="body-sm text-muted" style="max-width: 58ch;">Compound layouts for product pages, onboarding, and account workflows — ready for launch screens, docs hubs, and internal tooling.</p>
+          <p class="body-sm text-muted" style="max-width: 58ch;">Compound layouts for product pages, onboarding, and account workflows. Ready for launch screens, docs hubs, and internal tooling.</p>
           <div class="component-row">
             <p class="mono-label mb-2">Pricing Grid</p>
             <div class="pricing-grid">
@@ -1701,6 +1730,22 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
 
       const initialTarget = window.location.hash && document.querySelector(window.location.hash);
       setActiveLink(initialTarget ? initialTarget.id : 'top');
+
+      // Mobile sidebar toggle
+      const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+      const sidebar = document.querySelector('.docs-sidebar');
+      if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('is-open');
+          sidebarToggle.textContent = sidebar.classList.contains('is-open') ? '✕' : '☰';
+        });
+        sidebar.addEventListener('click', function(e) {
+          if (e.target.closest('a[href^="#"]')) {
+            sidebar.classList.remove('is-open');
+            sidebarToggle.textContent = '☰';
+          }
+        });
+      }
     })();
   </script>
 </body>

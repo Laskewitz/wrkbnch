@@ -46,7 +46,7 @@ These rules block output. Do not emit UI until they pass.
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://laskewitz.github.io/wrkbnch/wrkbnch.min.css">
 ```
 
@@ -242,10 +242,10 @@ Core layout:
 - `split`, `split-sidebar`, `split-content` for two-column layouts.
 
 Core typography:
-- `display-xl`, `display-lg`, `display-md` for Fraunces display text.
-- `heading-xl` through `heading-sm` for Instrument Sans headings.
+- `display-xl`, `display-lg`, `display-md` for Bricolage Grotesque display text.
+- `heading-xl` through `heading-sm` for Karla headings.
 - `body-lg`, `body-md`, `body-sm` for body text.
-- `mono`, `mono-sm`, `mono-label` for IBM Plex Mono.
+- `mono`, `mono-sm`, `mono-label` for JetBrains Mono.
 - `text-muted`, `text-faint`, `text-accent`, `text-success` for color.
 
 Core components:
