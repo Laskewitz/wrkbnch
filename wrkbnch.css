@@ -1,6 +1,6 @@
 /* ==========================================================================
    wrkbnch.css — A warm, utilitarian design system for AI-generated interfaces.
-   v1.0.0 | MIT License | https://github.com/Laskewitz/wrkbnch
+   v1.2.0 | MIT License | https://github.com/Laskewitz/wrkbnch
    ========================================================================== */
 
 /* ==========================================================================
@@ -47,12 +47,15 @@
   --color-surface-raised: #fff;
   --color-text: var(--ink);
   --color-text-muted: #5c5c58;
-  --color-text-faint: #8a8a85;
+  --color-text-faint: #6b6b66;
   --color-border: #d1cbbf;
   --color-border-subtle: #e5e0d8;
   --color-accent: var(--copper);
   --color-accent-text: var(--copper-text);
   --color-accent-tint: var(--copper-tint);
+  --color-on-accent: #ffffff;
+  --accent-strong: #b5511f;
+  --accent-strong-hover: #9e4420;
   --color-link: var(--slate-text);
   --color-link-hover: var(--slate);
   --color-focus: var(--slate);
@@ -142,12 +145,15 @@
   --color-surface-raised: var(--graphite);
   --color-text: #f0ede8;
   --color-text-muted: #a8a8a3;
-  --color-text-faint: #6e6e69;
+  --color-text-faint: #929289;
   --color-border: #4a4a46;
   --color-border-subtle: #3a3a36;
   --color-accent: var(--copper-dark);
   --color-accent-text: var(--copper-dark);
   --color-accent-tint: rgba(196, 93, 44, 0.12);
+  --color-on-accent: var(--ink);
+  --accent-strong: var(--copper-dark);
+  --accent-strong-hover: #f0936a;
   --color-link: var(--slate-dark);
   --color-link-hover: #9ec7d4;
   --color-focus: var(--slate-dark);
@@ -167,12 +173,15 @@
     --color-surface-raised: var(--graphite);
     --color-text: #f0ede8;
     --color-text-muted: #a8a8a3;
-    --color-text-faint: #6e6e69;
+    --color-text-faint: #929289;
     --color-border: #4a4a46;
     --color-border-subtle: #3a3a36;
     --color-accent: var(--copper-dark);
     --color-accent-text: var(--copper-dark);
     --color-accent-tint: rgba(196, 93, 44, 0.12);
+    --color-on-accent: var(--ink);
+    --accent-strong: var(--copper-dark);
+    --accent-strong-hover: #f0936a;
     --color-link: var(--slate-dark);
     --color-link-hover: #9ec7d4;
     --color-focus: var(--slate-dark);
@@ -475,15 +484,15 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--color-accent);
-  color: #fff;
-  border-color: var(--color-accent);
+  background: var(--accent-strong);
+  color: var(--color-on-accent);
+  border-color: var(--accent-strong);
 }
 
 .btn-primary:hover {
-  background: var(--copper-text);
-  border-color: var(--copper-text);
-  color: #fff;
+  background: var(--accent-strong-hover);
+  border-color: var(--accent-strong-hover);
+  color: var(--color-on-accent);
 }
 
 .btn-ghost {
@@ -722,7 +731,7 @@ a:hover {
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: var(--color-text-faint);
+  color: var(--color-text-muted);
 }
 
 .form-textarea {
@@ -1133,10 +1142,10 @@ pre code {
   max-width: 400px;
 }
 
-.toast-success { border-left: 3px solid var(--moss); }
-.toast-danger { border-left: 3px solid var(--danger); }
-.toast-warning { border-left: 3px solid var(--warning); }
-.toast-info { border-left: 3px solid var(--slate); }
+.toast-success { background: var(--moss-tint); border-color: var(--moss); color: var(--moss-text); }
+.toast-danger { background: var(--danger-tint); border-color: var(--danger); color: var(--danger-text); }
+.toast-warning { background: var(--warning-tint); border-color: var(--warning); color: var(--warning-text); }
+.toast-info { background: var(--slate-tint); border-color: var(--slate); color: var(--slate-text); }
 
 /* ==========================================================================
    DIALOG / MODAL
@@ -1431,7 +1440,7 @@ pre code {
 .prose ul, .prose ol { margin-bottom: var(--space-4); padding-left: var(--space-6); }
 .prose li { margin-bottom: var(--space-1); }
 .prose blockquote {
-  border-left: 3px solid var(--color-accent);
+  border-left: 2px solid var(--color-border);
   padding-left: var(--space-4);
   color: var(--color-text-muted);
   margin-bottom: var(--space-4);
@@ -3127,6 +3136,11 @@ ol.styled-list li::marker {
 .newsletter-form input:focus,
 .newsletter-form input:focus-visible {
   outline: none;
+}
+
+.newsletter-form:focus-within {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .newsletter-form button,
