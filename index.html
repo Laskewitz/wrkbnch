@@ -36,6 +36,10 @@
     .docs-section-dark .body-sm,
     .docs-section-dark p { color: rgba(255,255,255,0.85); }
     .docs-section-dark .text-muted { color: rgba(255,255,255,0.5) !important; }
+    /* Hero demo card is its own surface; keep its native text colors so it stays readable in light mode */
+    .docs-section-dark .hero-title { color: var(--color-text); }
+    .docs-section-dark .hero-title.accent-text { color: var(--copper); }
+    .docs-section-dark .hero-subtitle { color: var(--color-text-muted); }
     .docs-section-surface {
       background: var(--sand);
       padding: var(--space-16) var(--space-8);
