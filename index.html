@@ -27,22 +27,24 @@
     .docs-main { margin-left: var(--docs-sidebar-width); min-width: 0; }
     .docs-section { padding-block: var(--space-12); border-bottom: var(--border-subtle); scroll-margin-top: var(--space-6); }
     .docs-section:last-child { border-bottom: none; }
+    /* Theme-aware showcase band: a light surface in light mode, an ink band in dark mode.
+       Text colors are only inverted once the band itself goes dark. */
     .docs-section-dark {
-      background: var(--ink);
+      background: var(--sand);
       padding: var(--space-16) var(--space-8);
       margin-inline: calc(-1 * var(--space-8));
-      border-bottom: none;
+      border-block: var(--border-thin);
     }
-    .docs-section-dark .docs-label { color: rgba(255,255,255,0.5); }
-    .docs-section-dark .heading-xl,
-    .docs-section-dark .heading-sm,
-    .docs-section-dark .body-sm,
-    .docs-section-dark p { color: rgba(255,255,255,0.85); }
-    .docs-section-dark .text-muted { color: rgba(255,255,255,0.5) !important; }
-    /* Hero demo card is its own surface; keep its native text colors so it stays readable in light mode */
-    .docs-section-dark .hero-title { color: var(--color-text); }
-    .docs-section-dark .hero-title.accent-text { color: var(--copper); }
-    .docs-section-dark .hero-subtitle { color: var(--color-text-muted); }
+    [data-mode="dark"] .docs-section-dark {
+      background: var(--ink);
+      border-block: none;
+    }
+    [data-mode="dark"] .docs-section-dark .docs-label { color: rgba(255,255,255,0.5); }
+    [data-mode="dark"] .docs-section-dark .heading-xl,
+    [data-mode="dark"] .docs-section-dark .heading-sm,
+    [data-mode="dark"] .docs-section-dark .body-sm,
+    [data-mode="dark"] .docs-section-dark p { color: rgba(255,255,255,0.85); }
+    [data-mode="dark"] .docs-section-dark .text-muted { color: rgba(255,255,255,0.5) !important; }
     .docs-section-surface {
       background: var(--sand);
       padding: var(--space-16) var(--space-8);
