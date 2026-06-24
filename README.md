@@ -21,7 +21,7 @@ The palette is warm and earthy — neutrals with purposeful accents:
 
 Each accent has a soft tint variant (`--copper-tint`, `--slate-tint`, `--moss-tint`) for backgrounds, and accessible text variants (`--copper-text`, `--slate-text`, `--moss-text`) for use on light surfaces.
 
-Surface colors: `--sand`, `--chalk`, `--ink`, `--charcoal` provide the warm neutral canvas.
+Surfaces stay neutral so the accents carry the warmth: `--chalk` is a true off-white body canvas (not a cream tint), `--sand` is the raised surface, and `--ink` / `--charcoal` cover text and dark-mode surfaces.
 
 ---
 

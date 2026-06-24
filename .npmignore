@@ -1,6 +1,4 @@
 node_modules/
-*.min.css
-*.min.css.map
 scripts/
 skill/
 CONTRIBUTING.md
