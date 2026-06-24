@@ -1,6 +1,6 @@
 /* ==========================================================================
    wrkbnch.css — A warm, utilitarian design system for AI-generated interfaces.
-   v1.0.0 | MIT License | https://github.com/Laskewitz/wrkbnch
+   v1.2.0 | MIT License | https://github.com/Laskewitz/wrkbnch
    ========================================================================== */
 
 /* ==========================================================================
@@ -47,15 +47,20 @@
   --color-surface-raised: #fff;
   --color-text: var(--ink);
   --color-text-muted: #5c5c58;
-  --color-text-faint: #8a8a85;
+  --color-text-faint: #6b6b66;
   --color-border: #d1cbbf;
   --color-border-subtle: #e5e0d8;
   --color-accent: var(--copper);
   --color-accent-text: var(--copper-text);
   --color-accent-tint: var(--copper-tint);
+  --color-on-accent: #ffffff;
+  --accent-strong: #b5511f;
+  --accent-strong-hover: #9e4420;
   --color-link: var(--slate-text);
   --color-link-hover: var(--slate);
   --color-focus: var(--slate);
+  --color-focus-ring: rgba(74, 102, 112, 0.12);
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
   --color-success: var(--moss);
   --color-success-text: var(--moss-text);
 
@@ -133,6 +138,20 @@
   --icon-sm: 1rem;
   --icon-md: 1.25rem;
   --icon-lg: 1.5rem;
+
+  /* --- Z-index scale --- */
+  /* Semantic layering, lowest to highest. Use these instead of raw values. */
+  --z-base: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1010;
+  --z-drawer-backdrop: 1020;
+  --z-drawer: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-toast: 1070;
+  --z-tooltip: 1080;
+  --z-skip-link: 1090;
 }
 
 /* --- Dark Mode --- */
@@ -142,15 +161,19 @@
   --color-surface-raised: var(--graphite);
   --color-text: #f0ede8;
   --color-text-muted: #a8a8a3;
-  --color-text-faint: #6e6e69;
+  --color-text-faint: #929289;
   --color-border: #4a4a46;
   --color-border-subtle: #3a3a36;
   --color-accent: var(--copper-dark);
   --color-accent-text: var(--copper-dark);
   --color-accent-tint: rgba(196, 93, 44, 0.12);
+  --color-on-accent: var(--ink);
+  --accent-strong: var(--copper-dark);
+  --accent-strong-hover: #f0936a;
   --color-link: var(--slate-dark);
   --color-link-hover: #9ec7d4;
   --color-focus: var(--slate-dark);
+  --color-focus-ring: rgba(123, 168, 181, 0.24);
   --color-success: var(--moss-dark);
   --color-success-text: var(--moss-dark);
 
@@ -167,15 +190,19 @@
     --color-surface-raised: var(--graphite);
     --color-text: #f0ede8;
     --color-text-muted: #a8a8a3;
-    --color-text-faint: #6e6e69;
+    --color-text-faint: #929289;
     --color-border: #4a4a46;
     --color-border-subtle: #3a3a36;
     --color-accent: var(--copper-dark);
     --color-accent-text: var(--copper-dark);
     --color-accent-tint: rgba(196, 93, 44, 0.12);
+    --color-on-accent: var(--ink);
+    --accent-strong: var(--copper-dark);
+    --accent-strong-hover: #f0936a;
     --color-link: var(--slate-dark);
     --color-link-hover: #9ec7d4;
     --color-focus: var(--slate-dark);
+    --color-focus-ring: rgba(123, 168, 181, 0.24);
     --color-success: var(--moss-dark);
     --color-success-text: var(--moss-dark);
 
@@ -475,15 +502,15 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--color-accent);
-  color: #fff;
-  border-color: var(--color-accent);
+  background: var(--accent-strong);
+  color: var(--color-on-accent);
+  border-color: var(--accent-strong);
 }
 
 .btn-primary:hover {
-  background: var(--copper-text);
-  border-color: var(--copper-text);
-  color: #fff;
+  background: var(--accent-strong-hover);
+  border-color: var(--accent-strong-hover);
+  color: var(--color-on-accent);
 }
 
 .btn-ghost {
@@ -717,12 +744,12 @@ a:hover {
 .form-select:focus {
   outline: none;
   border-color: var(--color-focus);
-  box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
+  box-shadow: var(--focus-ring);
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: var(--color-text-faint);
+  color: var(--color-text-muted);
 }
 
 .form-textarea {
@@ -742,8 +769,23 @@ a:hover {
 }
 
 .form-input[aria-invalid="true"],
-.form-textarea[aria-invalid="true"] {
+.form-textarea[aria-invalid="true"],
+.form-select[aria-invalid="true"] {
   border-color: var(--danger);
+}
+
+.form-input:disabled,
+.form-textarea:disabled,
+.form-select:disabled {
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-input:disabled::placeholder,
+.form-textarea:disabled::placeholder {
+  color: var(--color-text-faint);
 }
 
 .form-checkbox,
@@ -1133,10 +1175,10 @@ pre code {
   max-width: 400px;
 }
 
-.toast-success { border-left: 3px solid var(--moss); }
-.toast-danger { border-left: 3px solid var(--danger); }
-.toast-warning { border-left: 3px solid var(--warning); }
-.toast-info { border-left: 3px solid var(--slate); }
+.toast-success { background: var(--moss-tint); border-color: var(--moss); color: var(--moss-text); }
+.toast-danger { background: var(--danger-tint); border-color: var(--danger); color: var(--danger-text); }
+.toast-warning { background: var(--warning-tint); border-color: var(--warning); color: var(--warning-text); }
+.toast-info { background: var(--slate-tint); border-color: var(--slate); color: var(--slate-text); }
 
 /* ==========================================================================
    DIALOG / MODAL
@@ -1150,7 +1192,7 @@ pre code {
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
-  z-index: 1000;
+  z-index: var(--z-modal-backdrop);
 }
 
 .dialog {
@@ -1431,7 +1473,7 @@ pre code {
 .prose ul, .prose ol { margin-bottom: var(--space-4); padding-left: var(--space-6); }
 .prose li { margin-bottom: var(--space-1); }
 .prose blockquote {
-  border-left: 3px solid var(--color-accent);
+  border-left: 2px solid var(--color-border);
   padding-left: var(--space-4);
   color: var(--color-text-muted);
   margin-bottom: var(--space-4);
@@ -1547,7 +1589,7 @@ pre code {
 .checkbox input:focus-visible,
 .radio input:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
+  box-shadow: var(--focus-ring);
 }
 
 /* Switch */
@@ -1599,7 +1641,20 @@ pre code {
 }
 
 .switch input:focus-visible + .switch-track {
-  box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
+  box-shadow: var(--focus-ring);
+}
+
+.checkbox:has(input:disabled),
+.radio:has(input:disabled),
+.switch:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.checkbox input:disabled,
+.radio input:disabled,
+.switch input:disabled {
+  cursor: not-allowed;
 }
 
 /* Segmented Control */
@@ -1693,7 +1748,7 @@ pre code {
 .floating-input:focus-visible {
   outline: none;
   border-color: var(--color-focus);
-  box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
+  box-shadow: var(--focus-ring);
 }
 
 .floating-label {
@@ -1762,7 +1817,7 @@ pre code {
 
 .range-input:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
+  box-shadow: var(--focus-ring);
 }
 
 /* Dropzone */
@@ -1811,7 +1866,7 @@ pre code {
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  z-index: 10;
+  z-index: var(--z-dropdown);
   min-width: 180px;
   padding: var(--space-1);
   border: var(--border-thin);
@@ -2056,7 +2111,7 @@ pre code {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 8px);
-  z-index: 10;
+  z-index: var(--z-tooltip);
   width: max-content;
   max-width: 200px;
   padding: var(--space-1) var(--space-2);
@@ -2088,7 +2143,7 @@ pre code {
   position: absolute;
   left: 50%;
   top: calc(100% + 8px);
-  z-index: 10;
+  z-index: var(--z-popover);
   width: 240px;
   padding: var(--space-3);
   border: var(--border-thin);
@@ -2149,7 +2204,7 @@ pre code {
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: var(--z-drawer-backdrop);
   background: rgba(26, 26, 24, 0.5);
   opacity: 0;
   pointer-events: none;
@@ -2165,7 +2220,7 @@ pre code {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 31;
+  z-index: var(--z-drawer);
   width: min(400px, 90vw);
   height: 100vh;
   padding: var(--space-6);
@@ -2230,6 +2285,18 @@ pre code {
 
 @keyframes shimmer {
   100% { transform: translateX(100%); }
+}
+
+/* Reduced-motion: tame infinite loading animations.
+   The spinner conveys essential status, so slow it rather than freeze;
+   the skeleton shimmer is decorative, so hold it static. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+  .skeleton::after {
+    animation: none;
+  }
 }
 
 /* ==========================================================================
@@ -2609,7 +2676,7 @@ ol.styled-list li::marker {
   position: absolute;
   left: var(--space-6);
   top: var(--space-3);
-  z-index: 50;
+  z-index: var(--z-skip-link);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   background: var(--color-accent);
@@ -2740,7 +2807,7 @@ ol.styled-list li::marker {
 .otp-input:focus-visible {
   outline: none;
   border-color: var(--color-focus);
-  box-shadow: 0 0 0 3px rgba(74, 102, 112, 0.12);
+  box-shadow: var(--focus-ring);
 }
 
 /* Calendar Card */
@@ -2874,7 +2941,7 @@ ol.styled-list li::marker {
   position: absolute;
   top: calc(100% + var(--space-2));
   right: 0;
-  z-index: 20;
+  z-index: var(--z-dropdown);
   width: min(100vw - 2rem, 240px);
   padding: var(--space-2);
   border: var(--border-thin);
@@ -2970,7 +3037,7 @@ ol.styled-list li::marker {
   position: absolute;
   top: calc(100% + var(--space-2));
   left: 0;
-  z-index: 20;
+  z-index: var(--z-popover);
   width: min(100vw - 2rem, 320px);
   padding: var(--space-4);
   border: var(--border-thin);
@@ -3127,6 +3194,11 @@ ol.styled-list li::marker {
 .newsletter-form input:focus,
 .newsletter-form input:focus-visible {
   outline: none;
+}
+
+.newsletter-form:focus-within {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .newsletter-form button,

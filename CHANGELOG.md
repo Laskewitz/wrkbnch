@@ -23,6 +23,12 @@ Design overhaul: escaping the AI-generated aesthetic.
 - Docs page: component usage guidance added to key sections
 - Docs page: em-dash copy rewritten for natural cadence
 
+### Accessibility & polish
+- Reduced motion: the spinner slows and the skeleton shimmer stops under `prefers-reduced-motion`, so every animation now has a calm alternative
+- Disabled states added for text inputs, textareas, selects, and the checkbox/radio/switch labels (was button-only)
+- New `--focus-ring` token drives all focus rings and brightens in dark mode for visibility
+- Semantic z-index scale (`--z-dropdown` through `--z-tooltip`) replaces scattered raw values
+
 ## 1.1.0
 
 Component expansion — 34 new components added.

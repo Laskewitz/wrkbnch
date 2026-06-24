@@ -17,29 +17,34 @@
     :root { --docs-sidebar-width: 220px; }
 
     html {
-      scroll-behavior: smooth;
       scroll-padding-top: var(--space-6);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     .docs-main { margin-left: var(--docs-sidebar-width); min-width: 0; }
     .docs-section { padding-block: var(--space-12); border-bottom: var(--border-subtle); scroll-margin-top: var(--space-6); }
     .docs-section:last-child { border-bottom: none; }
+    /* Theme-aware showcase band: a light surface in light mode, an ink band in dark mode.
+       Text colors are only inverted once the band itself goes dark. */
     .docs-section-dark {
-      background: var(--ink);
+      background: var(--sand);
       padding: var(--space-16) var(--space-8);
       margin-inline: calc(-1 * var(--space-8));
-      border-bottom: none;
+      border-block: var(--border-thin);
     }
-    .docs-section-dark .docs-label { color: rgba(255,255,255,0.5); }
-    .docs-section-dark .heading-xl,
-    .docs-section-dark .heading-sm,
-    .docs-section-dark .body-sm,
-    .docs-section-dark p { color: rgba(255,255,255,0.85); }
-    .docs-section-dark .text-muted { color: rgba(255,255,255,0.5) !important; }
-    /* Hero demo card is its own surface; keep its native text colors so it stays readable in light mode */
-    .docs-section-dark .hero-title { color: var(--color-text); }
-    .docs-section-dark .hero-title.accent-text { color: var(--copper); }
-    .docs-section-dark .hero-subtitle { color: var(--color-text-muted); }
+    [data-mode="dark"] .docs-section-dark {
+      background: var(--ink);
+      border-block: none;
+    }
+    [data-mode="dark"] .docs-section-dark .docs-label { color: rgba(255,255,255,0.5); }
+    [data-mode="dark"] .docs-section-dark .heading-xl,
+    [data-mode="dark"] .docs-section-dark .heading-sm,
+    [data-mode="dark"] .docs-section-dark .body-sm,
+    [data-mode="dark"] .docs-section-dark p { color: rgba(255,255,255,0.85); }
+    [data-mode="dark"] .docs-section-dark .text-muted { color: rgba(255,255,255,0.5) !important; }
     .docs-section-surface {
       background: var(--sand);
       padding: var(--space-16) var(--space-8);
@@ -48,13 +53,119 @@
       border-bottom: none;
     }
     .docs-grid { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-8); align-items: start; }
-    .docs-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; padding-top: var(--space-1); }
+    .docs-label { font-family: var(--font-display); font-size: var(--text-lg); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: -0.01em; color: var(--color-text); padding-top: var(--space-1); }
     .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-3); }
     .color-swatch { border-radius: var(--radius-md); overflow: hidden; border: var(--border-subtle); }
     .color-swatch-block { height: 64px; }
     .color-swatch-info { padding: var(--space-2) var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); background: var(--color-surface-raised); color: var(--color-text); font-weight: 500; }
     .type-sample { margin-bottom: var(--space-4); }
     .component-row { margin-bottom: var(--space-6); }
+
+    /* Chapter dividers */
+    .docs-chapter {
+      margin-block: var(--space-16) var(--space-6);
+      padding-top: var(--space-10);
+      border-top: 2px solid var(--color-border);
+      scroll-margin-top: var(--space-6);
+    }
+    .docs-chapter:first-of-type {
+      border-top: none;
+      padding-top: var(--space-6);
+      margin-top: var(--space-6);
+    }
+    .docs-chapter-title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--color-text);
+      text-wrap: balance;
+    }
+    .docs-chapter-desc {
+      margin-top: var(--space-2);
+      max-width: 54ch;
+      color: var(--color-text-muted);
+      font-size: var(--text-md);
+      line-height: var(--leading-normal);
+    }
+
+    /* Copy-to-clipboard buttons */
+    .docs-pre-wrap { position: relative; }
+    .docs-copy {
+      position: absolute;
+      top: var(--space-2);
+      right: var(--space-2);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      line-height: 1;
+      color: var(--color-text-muted);
+      background: var(--color-surface-raised);
+      border: var(--border-thin);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      opacity: 0.65;
+      transition: opacity var(--duration-fast) var(--ease-default), color var(--duration-fast) var(--ease-default), border-color var(--duration-fast) var(--ease-default);
+    }
+    .docs-pre-wrap:hover .docs-copy,
+    .docs-copy:focus-visible { opacity: 1; }
+    .docs-copy:hover { color: var(--color-accent-text, #c45d2c); border-color: var(--color-accent); }
+    .docs-copy.is-copied { color: var(--moss-text); border-color: var(--moss); opacity: 1; }
+    .docs-copy-inline {
+      position: static;
+      margin-left: var(--space-2);
+      vertical-align: middle;
+      opacity: 1;
+    }
+    .docs-copy-ondark {
+      color: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .docs-copy-ondark:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+    /* Sidebar search */
+    .docs-sidebar-search { padding: var(--space-3) var(--space-3) 0; }
+    .docs-sidebar-search input {
+      width: 100%;
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      background: var(--color-surface-raised);
+      border: var(--border-thin);
+      border-radius: var(--radius-md);
+    }
+    .docs-sidebar-search input:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 1px;
+      border-color: var(--color-focus);
+    }
+    .docs-nav-group.is-filtered-out,
+    .docs-sidebar-link.is-filtered-out { display: none; }
+    .docs-sidebar-empty {
+      display: none;
+      padding: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    .docs-sidebar-empty.is-visible { display: block; }
+
+    /* Illustrative pattern-demo note */
+    .docs-demo-note {
+      max-width: 58ch;
+      margin-top: var(--space-3);
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      background: var(--color-surface-raised);
+      border: var(--border-thin);
+      border-radius: var(--radius-md);
+    }
 
     .docs-sidebar {
       position: fixed;
@@ -249,10 +360,14 @@
       <div class="docs-sidebar-head">
         <a class="docs-sidebar-brand" href="#top"><span class="brand-mark lg">WRKBNCH</span></a>
       </div>
-      <nav class="docs-sidebar-nav" aria-label="Section navigation">
-        <a class="docs-sidebar-link docs-sidebar-link--parent" href="#top">Getting Started</a>
+      <div class="docs-sidebar-search">
+        <label class="sr-only" for="docs-search">Search components</label>
+        <input id="docs-search" type="search" placeholder="Search components…" autocomplete="off" spellcheck="false" data-docs-search aria-controls="docs-nav">
+      </div>
+      <nav class="docs-sidebar-nav" id="docs-nav" aria-label="Section navigation">
+        <a class="docs-sidebar-link docs-sidebar-link--parent" href="#top">Getting started</a>
 
-        <details class="docs-nav-group">
+        <details class="docs-nav-group" open>
           <summary>Foundations</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#colors">Color</a>
@@ -261,45 +376,69 @@
           </div>
         </details>
 
-        <details class="docs-nav-group" open>
-          <summary>Components</summary>
+        <details class="docs-nav-group">
+          <summary>Actions</summary>
           <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#buttons">Buttons</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#cards">Cards</a>
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#badges">Badges</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#alerts">Alerts</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#buttons-badges">Buttons &amp; badges+</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group">
+          <summary>Forms</summary>
+          <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#forms">Forms</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#enhanced-forms">Enhanced Forms</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#tables">Tables</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#enhanced-forms">Enhanced forms</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group">
+          <summary>Navigation</summary>
+          <div class="docs-nav-children">
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#navigation">Navigation</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#nav-additions">Nav Additions</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#code">Code &amp; Terminal</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#hero">Hero</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#accordion">Accordion</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#buttons-badges">Buttons &amp; Badges+</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#typography-additions">Typography+</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#command-palette">Command Palette</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#nav-additions">Nav additions</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#command-palette">Command palette</a>
           </div>
         </details>
 
         <details class="docs-nav-group">
-          <summary>Data Display</summary>
+          <summary>Data display</summary>
           <div class="docs-nav-children">
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-display">Data Display</a>
-            <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-additions">Data Additions</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#cards">Cards</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#tables">Tables</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-display">Data display</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#data-additions">Data additions</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#kv-list">Key–value list</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#log-viewer">Log viewer</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#code">Code &amp; terminal</a>
           </div>
         </details>
 
         <details class="docs-nav-group">
-          <summary>Feedback</summary>
+          <summary>Feedback &amp; status</summary>
           <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#alerts">Alerts</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#toast">Toasts</a>
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#feedback-additions">Feedback</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#status">Status</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#empty-state">Empty state</a>
           </div>
         </details>
 
         <details class="docs-nav-group">
-          <summary>Patterns</summary>
+          <summary>Overlays &amp; disclosure</summary>
           <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#dialog">Dialog</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#accordion">Accordion</a>
+          </div>
+        </details>
+
+        <details class="docs-nav-group">
+          <summary>Surfaces &amp; patterns</summary>
+          <div class="docs-nav-children">
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#hero">Hero</a>
+            <a class="docs-sidebar-link docs-sidebar-link--child" href="#typography-additions">Typography+</a>
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#patterns">Patterns</a>
           </div>
         </details>
@@ -310,6 +449,8 @@
             <a class="docs-sidebar-link docs-sidebar-link--child" href="#utilities">Utilities</a>
           </div>
         </details>
+
+        <p class="docs-sidebar-empty" data-docs-empty>No components match your search.</p>
       </nav>
       <div class="docs-sidebar-footer">
         <button class="docs-mode-toggle" type="button" data-mode-toggle aria-label="Switch to dark mode">☀</button>
@@ -323,18 +464,23 @@
     <!-- Hero -->
     <header class="docs-hero" id="top">
       <div class="docs-hero-inner">
-        <p class="mono-label" style="color: var(--copper-dark); opacity: 0.9;">Design System v1.1</p>
+        <p class="mono-label" style="color: var(--copper-dark); opacity: 0.9;">Design System v1.2</p>
         <h1 class="display-lg" style="color: #fff; letter-spacing: -0.03em;">wrkbnch</h1>
         <p class="body-lg" style="max-width: 44ch; color: rgba(255,255,255,0.72); margin-top: var(--space-3);">A warm, utilitarian CSS design system. No JavaScript, no build step. For interfaces that feel built, not generated.</p>
         <div class="cluster" style="margin-top: var(--space-6);">
           <a href="https://github.com/Laskewitz/wrkbnch" class="btn btn-primary">GitHub</a>
           <a href="https://www.npmjs.com/package/wrkbnch-css" class="btn" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff;">npm</a>
-          <code class="mono" style="padding: var(--space-2) var(--space-3); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); color: rgba(255,255,255,0.85);">npm install wrkbnch-css</code>
+          <code class="mono" data-copy-install style="padding: var(--space-2) var(--space-3); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); color: rgba(255,255,255,0.85);">npm install wrkbnch-css</code>
         </div>
       </div>
     </header>
 
   <main class="container">
+    <!-- Chapter: Foundations -->
+    <div class="docs-chapter" id="ch-foundations">
+      <h2 class="docs-chapter-title">Foundations</h2>
+      <p class="docs-chapter-desc">The tokens and primitives everything else is built on.</p>
+    </div>
 
     <!-- Colors -->
     <section class="docs-section" id="colors">
@@ -344,12 +490,12 @@
           <p class="body-sm text-muted mb-4">Warm neutrals with earthy accents. One dominant accent per surface.</p>
           <div class="color-grid">
             <div class="color-swatch">
-              <div class="color-swatch-block" style="background: #e8dcc8;"></div>
-              <div class="color-swatch-info">--sand<br>#e8dcc8</div>
+              <div class="color-swatch-block" style="background: #f0ede7;"></div>
+              <div class="color-swatch-info">--sand<br>#f0ede7</div>
             </div>
             <div class="color-swatch">
-              <div class="color-swatch-block" style="background: #f5f2ec;"></div>
-              <div class="color-swatch-info">--chalk<br>#f5f2ec</div>
+              <div class="color-swatch-block" style="background: #ffffff;"></div>
+              <div class="color-swatch-info">--chalk<br>#ffffff</div>
             </div>
             <div class="color-swatch">
               <div class="color-swatch-block" style="background: #1a1a18;"></div>
@@ -413,6 +559,46 @@
       </div>
     </section>
 
+    <!-- Layout -->
+    <section class="docs-section" id="layout">
+      <div class="docs-grid">
+        <div class="docs-label">Layout</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Stack</p>
+            <div class="stack stack-sm" style="max-width: 300px;">
+              <div class="panel-inset"><code class="mono-sm">.stack</code> with vertical gap</div>
+              <div class="panel-inset"><code class="mono-sm">Each child stacks</code></div>
+              <div class="panel-inset"><code class="mono-sm">With consistent spacing</code></div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Cluster</p>
+            <div class="cluster">
+              <div class="panel-inset"><code class="mono-sm">item</code></div>
+              <div class="panel-inset"><code class="mono-sm">wraps</code></div>
+              <div class="panel-inset"><code class="mono-sm">inline</code></div>
+              <div class="panel-inset"><code class="mono-sm">with gap</code></div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Grid</p>
+            <div class="grid grid-3">
+              <div class="panel-inset text-center"><code class="mono-sm">1</code></div>
+              <div class="panel-inset text-center"><code class="mono-sm">2</code></div>
+              <div class="panel-inset text-center"><code class="mono-sm">3</code></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter: Actions -->
+    <div class="docs-chapter" id="ch-actions">
+      <h2 class="docs-chapter-title">Actions</h2>
+      <p class="docs-chapter-desc">Buttons and badges — the controls users press and read.</p>
+    </div>
+
     <!-- Buttons -->
     <section class="docs-section" id="buttons">
       <div class="docs-grid">
@@ -449,49 +635,50 @@
       </div>
     </section>
 
-    <!-- Alerts -->
-    <section class="docs-section" id="alerts">
+    <!-- Buttons & Badges Additions -->
+    <section class="docs-section" id="buttons-badges">
       <div class="docs-grid">
-        <div class="docs-label">Alerts<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Inline system messages. Use toasts for transient feedback instead.</span></div>
+        <div class="docs-label">Buttons &amp; Badges+</div>
         <div class="stack">
-          <div class="alert alert-info">Deploy completed successfully in 2.3s. All health checks passed.</div>
-          <div class="alert alert-accent">New version available. Run <code>npm update wrkbnch-css</code> to upgrade.</div>
-          <div class="alert alert-warning">Rate limit approaching. 847/1000 requests used this hour.</div>
-          <div class="alert alert-danger">Connection to database lost. Retrying in 5s.</div>
-          <div class="alert alert-success">Migration applied. 3 tables created, 0 errors.</div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Button Group</p>
+            <div class="button-group">
+              <button class="btn">Day</button>
+              <button class="btn">Week</button>
+              <button class="btn btn-primary">Month</button>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Tags</p>
+            <div class="cluster">
+              <span class="tag">node.js <button>×</button></span>
+              <span class="tag">typescript <button>×</button></span>
+              <span class="tag">docker <button>×</button></span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Version Badge &amp; Cmd Pill</p>
+            <div class="cluster">
+              <span class="version-badge">v1.2.0</span>
+              <span class="cmd-pill"><span class="dollar">$</span> npm run build</span>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Kbd</p>
+            <div class="cluster">
+              <kbd>⌘</kbd> <kbd>K</kbd>
+              <span class="text-muted body-sm">to open command palette</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Cards & Panels -->
-    <section class="docs-section" id="cards">
-      <div class="docs-grid">
-        <div class="docs-label">Cards &amp; Panels<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Use cards for scannable metrics. Panels for grouped content with headers.</span></div>
-        <div class="stack">
-          <div class="grid grid-2">
-            <div class="card">
-              <p class="mono-label mb-2">Build Duration</p>
-              <p class="heading-xl">2.3s</p>
-              <p class="body-sm text-muted mt-2">Last build completed at 14:32</p>
-            </div>
-            <div class="card">
-              <p class="mono-label mb-2">Test Coverage</p>
-              <p class="heading-xl text-success">94%</p>
-              <div class="progress mt-2"><div class="progress-bar progress-bar-success" style="width: 94%;"></div></div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-header">
-              <span class="heading-sm">Recent Activity</span>
-              <span class="badge badge-info">3 new</span>
-            </div>
-            <div class="panel-inset">
-              <p class="mono-sm text-muted">No new events in the last hour.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Chapter: Forms -->
+    <div class="docs-chapter" id="ch-forms">
+      <h2 class="docs-chapter-title">Forms</h2>
+      <p class="docs-chapter-desc">Inputs, validation, and the richer controls built on top.</p>
+    </div>
 
     <!-- Forms -->
     <section class="docs-section" id="forms">
@@ -499,434 +686,30 @@
         <div class="docs-label">Forms<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Standard inputs, selects, textareas. Pair with .form-hint for context.</span></div>
         <div class="stack" style="max-width: 400px;">
           <div class="form-group">
-            <label class="form-label">Project name</label>
-            <input class="form-input" type="text" placeholder="my-project">
+            <label class="form-label" for="form-project-name">Project name</label>
+            <input id="form-project-name" class="form-input" type="text" placeholder="my-project">
           </div>
           <div class="form-group">
-            <label class="form-label">Environment</label>
-            <select class="form-select">
+            <label class="form-label" for="form-environment">Environment</label>
+            <select id="form-environment" class="form-select">
               <option>Production</option>
               <option>Staging</option>
               <option>Development</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea class="form-textarea" placeholder="Optional project description..."></textarea>
-            <span class="form-hint">Markdown supported.</span>
+            <label class="form-label" for="form-description">Description</label>
+            <textarea id="form-description" class="form-textarea" placeholder="Optional project description..." aria-describedby="form-description-hint"></textarea>
+            <span class="form-hint" id="form-description-hint">Markdown supported.</span>
           </div>
           <div class="form-group">
-            <label class="form-label">API Key</label>
-            <input class="form-input form-input-sm" type="text" placeholder="sk-..." aria-invalid="true">
-            <span class="form-error">Invalid API key format.</span>
+            <label class="form-label" for="form-api-key">API Key</label>
+            <input id="form-api-key" class="form-input form-input-sm" type="text" placeholder="sk-..." aria-invalid="true" aria-describedby="form-api-key-error">
+            <span class="form-error" id="form-api-key-error">Invalid API key format.</span>
           </div>
           <div class="cluster">
             <button class="btn btn-primary">Create Project</button>
             <button class="btn btn-ghost">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tables -->
-    <section class="docs-section" id="tables">
-      <div class="docs-grid">
-        <div class="docs-label">Tables</div>
-        <div>
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Status</th>
-                  <th>Region</th>
-                  <th>Last Deploy</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>api-gateway</strong></td>
-                  <td><span class="badge badge-success badge-dot">healthy</span></td>
-                  <td class="text-muted">eu-west-1</td>
-                  <td class="mono text-muted">2m ago</td>
-                </tr>
-                <tr>
-                  <td><strong>auth-service</strong></td>
-                  <td><span class="badge badge-success badge-dot">healthy</span></td>
-                  <td class="text-muted">eu-west-1</td>
-                  <td class="mono text-muted">14m ago</td>
-                </tr>
-                <tr>
-                  <td><strong>worker-queue</strong></td>
-                  <td><span class="badge badge-warning badge-dot">degraded</span></td>
-                  <td class="text-muted">us-east-1</td>
-                  <td class="mono text-muted">1h ago</td>
-                </tr>
-                <tr>
-                  <td><strong>billing-api</strong></td>
-                  <td><span class="badge badge-danger badge-dot">down</span></td>
-                  <td class="text-muted">us-east-1</td>
-                  <td class="mono text-muted">3h ago</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Navigation -->
-    <section class="docs-section" id="navigation">
-      <div class="docs-grid">
-        <div class="docs-label">Navigation<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Horizontal nav for top-level, tabs for in-page views, breadcrumbs for depth.</span></div>
-        <div class="stack">
-          <div class="component-row">
-            <p class="mono-label mb-2">Horizontal Nav</p>
-            <nav class="nav">
-              <a class="nav-item active" href="javascript:void(0)" aria-current="page">Overview</a>
-              <a class="nav-item" href="javascript:void(0)">Deployments</a>
-              <a class="nav-item" href="javascript:void(0)">Settings</a>
-              <a class="nav-item" href="javascript:void(0)">Logs</a>
-            </nav>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Tabs</p>
-            <div class="tabs">
-              <a class="tab active" aria-selected="true">Source</a>
-              <a class="tab">Preview</a>
-              <a class="tab">History</a>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Breadcrumb</p>
-            <nav class="breadcrumb">
-              <a href="javascript:void(0)">Projects</a>
-              <span class="breadcrumb-separator">/</span>
-              <a href="javascript:void(0)">api-gateway</a>
-              <span class="breadcrumb-separator">/</span>
-              <span>Settings</span>
-            </nav>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Pagination</p>
-            <nav class="pagination">
-              <a class="pagination-item" href="javascript:void(0)">←</a>
-              <a class="pagination-item active" href="javascript:void(0)" aria-current="page">1</a>
-              <a class="pagination-item" href="javascript:void(0)">2</a>
-              <a class="pagination-item" href="javascript:void(0)">3</a>
-              <a class="pagination-item" href="javascript:void(0)">→</a>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section>
-    <script>
-      // Make nav demos interactive: click moves .active class
-      document.querySelectorAll('.nav, .tabs, .pagination, .sidebar-nav, .nav-rail').forEach(function(nav) {
-        nav.addEventListener('click', function(e) {
-          var item = e.target.closest('a, button');
-          if (!item || item.classList.contains('breadcrumb-separator')) return;
-          nav.querySelectorAll('a, button').forEach(function(el) {
-            el.classList.remove('active');
-            el.removeAttribute('aria-current');
-            if (el.hasAttribute('aria-selected')) el.setAttribute('aria-selected', 'false');
-          });
-          item.classList.add('active');
-          if (nav.classList.contains('tabs')) {
-            item.setAttribute('aria-selected', 'true');
-          } else if (!(nav.classList.contains('pagination') && /[←→]/.test(item.textContent.trim()))) {
-            item.setAttribute('aria-current', 'page');
-          }
-        });
-      });
-    </script>
-
-    <!-- Code & Terminal -->
-    <section class="docs-section docs-section-surface" id="code">
-      <div class="docs-grid">
-        <div class="docs-label">Code &amp; Terminal</div>
-        <div class="stack">
-          <div class="component-row">
-            <p class="mono-label mb-2">Inline Code</p>
-            <p class="body-md">Install with <code>npm install wrkbnch-css</code> and link the stylesheet.</p>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Code Block</p>
-            <pre><code>&lt;link rel="stylesheet" href="wrkbnch.css"&gt;
-
-&lt;div class="card"&gt;
-  &lt;p class="mono-label"&gt;Status&lt;/p&gt;
-  &lt;p class="heading-xl"&gt;Operational&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Terminal</p>
-            <div class="terminal">
-              <div class="terminal-header">
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-title">~/projects/my-app</span>
-              </div>
-              <div class="terminal-prompt">npm run build</div>
-              <div class="terminal-output">
-> my-app@1.0.0 build
-> vite build
-
-✓ 247 modules transformed.
-dist/index.html    0.42 kB │ gzip: 0.27 kB
-dist/app.js       84.21 kB │ gzip: 27.83 kB
-dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
-              <div class="terminal-comment"># Build completed in 1.8s</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Data Display -->
-    <section class="docs-section" id="data-display">
-      <div class="docs-grid">
-        <div class="docs-label">Data Display</div>
-        <div class="stack">
-          <p class="body-sm text-muted" style="max-width: 58ch;">Operational interfaces need dense state that still scans fast: progress, key-value context, and compact snapshots for build and deploy tooling.</p>
-          <div class="cluster">
-            <span class="badge">Progress</span>
-            <span class="badge">Description List</span>
-            <span class="badge">Status</span>
-            <span class="badge">Metadata</span>
-          </div>
-          <div class="component-row" style="max-width: 560px;">
-            <p class="mono-label mb-2">Progress Bar</p>
-            <div class="card card-sm">
-              <div class="stack stack-sm">
-                <div>
-                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
-                    <span class="body-sm">Canary rollout</span>
-                    <span class="mono-sm text-muted">18%</span>
-                  </div>
-                  <div class="progress mt-2"><div class="progress-fill" style="--value: 18%;"></div></div>
-                </div>
-                <div>
-                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
-                    <span class="body-sm">Schema backfill</span>
-                    <span class="mono-sm text-muted">64%</span>
-                  </div>
-                  <div class="progress mt-2"><div class="progress-fill" style="--value: 64%;"></div></div>
-                </div>
-                <div>
-                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
-                    <span class="body-sm">Incident runbook coverage</span>
-                    <span class="mono-sm text-muted">92%</span>
-                  </div>
-                  <div class="progress mt-2"><div class="progress-fill" style="--value: 92%;"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Description List</p>
-            <dl class="description-list">
-              <dt>primary region</dt>
-              <dd>eu-west-1 · 3 edge POPs warmed</dd>
-              <dt>runtime</dt>
-              <dd>Node.js 22 · Bun workers for previews</dd>
-              <dt>deploy SHA</dt>
-              <dd><code>91f4c2d</code> · built from <strong>release/train-24</strong></dd>
-              <dt>rollback window</dt>
-              <dd>30 minutes · automated snapshot retained</dd>
-              <dt>status</dt>
-              <dd><span class="badge badge-success badge-dot">ready for promotion</span></dd>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Key-Value List -->
-    <section class="docs-section" id="kv-list">
-      <div class="docs-grid">
-        <div class="docs-label">Key-Value List</div>
-        <div>
-          <div class="card card-sm">
-            <div class="kv-list">
-              <span class="kv-key">version</span>
-              <span class="kv-value">1.0.0</span>
-              <span class="kv-key">runtime</span>
-              <span class="kv-value">Node.js 20.11</span>
-              <span class="kv-key">region</span>
-              <span class="kv-value">eu-west-1</span>
-              <span class="kv-key">last-deploy</span>
-              <span class="kv-value">2024-01-15 14:32:08 UTC</span>
-              <span class="kv-key">status</span>
-              <span class="kv-value"><span class="badge badge-success badge-dot">operational</span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Log Viewer -->
-    <section class="docs-section" id="log-viewer">
-      <div class="docs-grid">
-        <div class="docs-label">Log Viewer</div>
-        <div>
-          <div class="log-viewer">
-            <div class="log-entry">
-              <span class="log-time">14:32:08</span>
-              <span class="log-level log-level-info">INFO</span>
-              <span class="log-message">Server started on port 3000</span>
-            </div>
-            <div class="log-entry">
-              <span class="log-time">14:32:09</span>
-              <span class="log-level log-level-info">INFO</span>
-              <span class="log-message">Database connection established</span>
-            </div>
-            <div class="log-entry">
-              <span class="log-time">14:32:11</span>
-              <span class="log-level log-level-warn">WARN</span>
-              <span class="log-message">Rate limit threshold at 80% capacity</span>
-            </div>
-            <div class="log-entry">
-              <span class="log-time">14:32:14</span>
-              <span class="log-level log-level-error">ERROR</span>
-              <span class="log-message">Connection timeout: redis://cache.internal:6379</span>
-            </div>
-            <div class="log-entry">
-              <span class="log-time">14:32:15</span>
-              <span class="log-level log-level-debug">DEBUG</span>
-              <span class="log-message">Retry attempt 1/3 for cache connection</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Status & Progress -->
-    <section class="docs-section" id="status">
-      <div class="docs-grid">
-        <div class="docs-label">Status &amp; Progress</div>
-        <div class="stack">
-          <div class="cluster component-row">
-            <span class="cluster cluster-sm"><span class="status-dot status-dot-success"></span> Healthy</span>
-            <span class="cluster cluster-sm"><span class="status-dot status-dot-warning"></span> Degraded</span>
-            <span class="cluster cluster-sm"><span class="status-dot status-dot-danger"></span> Down</span>
-            <span class="cluster cluster-sm"><span class="status-dot status-dot-info"></span> Maintenance</span>
-          </div>
-          <div class="component-row" style="max-width: 400px;">
-            <p class="mono-label mb-2">Progress</p>
-            <div class="progress"><div class="progress-bar" style="width: 67%;"></div></div>
-            <p class="mono-sm text-muted mt-2">67% · 134 of 200 tasks complete</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Empty State -->
-    <section class="docs-section" id="empty-state">
-      <div class="docs-grid">
-        <div class="docs-label">Empty State</div>
-        <div>
-          <div class="card">
-            <div class="empty-state">
-              <div class="empty-state-icon">⊘</div>
-              <p class="empty-state-title">No deployments yet</p>
-              <p class="empty-state-description">Push to main to trigger your first deployment, or configure a manual deploy.</p>
-              <button class="btn btn-primary mt-4">Configure Deploy</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dialog -->
-    <section class="docs-section" id="dialog">
-      <div class="docs-grid">
-        <div class="docs-label">Dialog</div>
-        <div>
-          <div class="dialog" style="position: relative; box-shadow: var(--shadow-lg);">
-            <div class="dialog-header">
-              <span class="heading-sm">Delete environment</span>
-            </div>
-            <div class="dialog-body">
-              <p class="body-sm">This will permanently delete <strong>staging-eu</strong> and all associated resources. This action cannot be undone.</p>
-            </div>
-            <div class="dialog-footer">
-              <button class="btn btn-ghost">Cancel</button>
-              <button class="btn btn-danger">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Toast -->
-    <section class="docs-section" id="toast">
-      <div class="docs-grid">
-        <div class="docs-label">Toast</div>
-        <div class="stack">
-          <div class="toast toast-success">Deploy to production completed. 3 instances healthy.</div>
-          <div class="toast toast-danger">Build failed. Check logs for details.</div>
-          <div class="toast toast-warning">API key expires in 7 days.</div>
-          <div class="toast toast-info">New team member added to project.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Layout -->
-    <section class="docs-section" id="layout">
-      <div class="docs-grid">
-        <div class="docs-label">Layout</div>
-        <div class="stack">
-          <div class="component-row">
-            <p class="mono-label mb-2">Stack</p>
-            <div class="stack stack-sm" style="max-width: 300px;">
-              <div class="panel-inset"><code class="mono-sm">.stack</code> with vertical gap</div>
-              <div class="panel-inset"><code class="mono-sm">Each child stacks</code></div>
-              <div class="panel-inset"><code class="mono-sm">With consistent spacing</code></div>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Cluster</p>
-            <div class="cluster">
-              <div class="panel-inset"><code class="mono-sm">item</code></div>
-              <div class="panel-inset"><code class="mono-sm">wraps</code></div>
-              <div class="panel-inset"><code class="mono-sm">inline</code></div>
-              <div class="panel-inset"><code class="mono-sm">with gap</code></div>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Grid</p>
-            <div class="grid grid-3">
-              <div class="panel-inset text-center"><code class="mono-sm">1</code></div>
-              <div class="panel-inset text-center"><code class="mono-sm">2</code></div>
-              <div class="panel-inset text-center"><code class="mono-sm">3</code></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Command Palette -->
-    <section class="docs-section" id="command-palette">
-      <div class="docs-grid">
-        <div class="docs-label">Command Palette</div>
-        <div>
-          <div class="command-palette" style="box-shadow: var(--shadow-xl);">
-            <input class="command-palette-input" type="text" placeholder="Type a command..." value="deploy">
-            <div class="command-palette-list">
-              <div class="command-palette-item" aria-selected="true">
-                <span>Deploy to production</span>
-                <span class="command-palette-kbd">⌘⇧D</span>
-              </div>
-              <div class="command-palette-item">
-                <span>Deploy to staging</span>
-                <span class="command-palette-kbd">⌘D</span>
-              </div>
-              <div class="command-palette-item">
-                <span>View deploy history</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -976,7 +759,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
             <p class="mono-label mb-2">Input Group</p>
             <div class="input-group">
               <span class="input-affix">https://</span>
-              <input class="form-input" type="text" placeholder="example.com">
+              <input class="form-input" type="text" placeholder="example.com" aria-label="API base URL">
               <span class="input-affix">/api</span>
             </div>
           </div>
@@ -1042,8 +825,60 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
             <div class="dropzone" style="max-width: 360px;">
               <strong>Drop files here</strong>
               <span class="body-sm">or click to browse</span>
-              <input type="file">
+              <input type="file" aria-label="Upload files">
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter: Navigation -->
+    <div class="docs-chapter" id="ch-navigation">
+      <h2 class="docs-chapter-title">Navigation</h2>
+      <p class="docs-chapter-desc">Moving through an interface: bars, rails, steppers, and the command palette.</p>
+    </div>
+
+    <!-- Navigation -->
+    <section class="docs-section" id="navigation">
+      <div class="docs-grid">
+        <div class="docs-label">Navigation<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Horizontal nav for top-level, tabs for in-page views, breadcrumbs for depth.</span></div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Horizontal Nav</p>
+            <nav class="nav">
+              <a class="nav-item active" href="javascript:void(0)" aria-current="page">Overview</a>
+              <a class="nav-item" href="javascript:void(0)">Deployments</a>
+              <a class="nav-item" href="javascript:void(0)">Settings</a>
+              <a class="nav-item" href="javascript:void(0)">Logs</a>
+            </nav>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Tabs</p>
+            <div class="tabs" role="tablist" aria-label="Tabs example">
+              <a class="tab active" role="tab" aria-selected="true" tabindex="0">Source</a>
+              <a class="tab" role="tab" aria-selected="false" tabindex="-1">Preview</a>
+              <a class="tab" role="tab" aria-selected="false" tabindex="-1">History</a>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Breadcrumb</p>
+            <nav class="breadcrumb">
+              <a href="javascript:void(0)">Projects</a>
+              <span class="breadcrumb-separator">/</span>
+              <a href="javascript:void(0)">api-gateway</a>
+              <span class="breadcrumb-separator">/</span>
+              <span>Settings</span>
+            </nav>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Pagination</p>
+            <nav class="pagination">
+              <a class="pagination-item" href="javascript:void(0)">←</a>
+              <a class="pagination-item active" href="javascript:void(0)" aria-current="page">1</a>
+              <a class="pagination-item" href="javascript:void(0)">2</a>
+              <a class="pagination-item" href="javascript:void(0)">3</a>
+              <a class="pagination-item" href="javascript:void(0)">→</a>
+            </nav>
           </div>
         </div>
       </div>
@@ -1081,6 +916,173 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
               <div class="step-line"></div>
               <div class="step"><div class="step-circle">3</div><span>Deploy</span></div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Command Palette -->
+    <section class="docs-section" id="command-palette">
+      <div class="docs-grid">
+        <div class="docs-label">Command Palette</div>
+        <div>
+          <div class="command-palette" style="box-shadow: var(--shadow-xl);">
+            <input class="command-palette-input" type="text" placeholder="Type a command..." value="deploy">
+            <div class="command-palette-list">
+              <div class="command-palette-item" aria-selected="true">
+                <span>Deploy to production</span>
+                <span class="command-palette-kbd">⌘⇧D</span>
+              </div>
+              <div class="command-palette-item">
+                <span>Deploy to staging</span>
+                <span class="command-palette-kbd">⌘D</span>
+              </div>
+              <div class="command-palette-item">
+                <span>View deploy history</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter: Data display -->
+    <div class="docs-chapter" id="ch-data">
+      <h2 class="docs-chapter-title">Data display</h2>
+      <p class="docs-chapter-desc">Surfaces for showing structured information at a glance or in depth.</p>
+    </div>
+
+    <!-- Cards & Panels -->
+    <section class="docs-section" id="cards">
+      <div class="docs-grid">
+        <div class="docs-label">Cards &amp; Panels<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Use cards for scannable metrics. Panels for grouped content with headers.</span></div>
+        <div class="stack">
+          <div class="grid grid-2">
+            <div class="card">
+              <p class="mono-label mb-2">Build Duration</p>
+              <p class="heading-xl">2.3s</p>
+              <p class="body-sm text-muted mt-2">Last build completed at 14:32</p>
+            </div>
+            <div class="card">
+              <p class="mono-label mb-2">Test Coverage</p>
+              <p class="heading-xl text-success">94%</p>
+              <div class="progress mt-2"><div class="progress-bar progress-bar-success" style="width: 94%;"></div></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <span class="heading-sm">Recent Activity</span>
+              <span class="badge badge-info">3 new</span>
+            </div>
+            <div class="panel-inset">
+              <p class="mono-sm text-muted">No new events in the last hour.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tables -->
+    <section class="docs-section" id="tables">
+      <div class="docs-grid">
+        <div class="docs-label">Tables</div>
+        <div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Region</th>
+                  <th>Last Deploy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>api-gateway</strong></td>
+                  <td><span class="badge badge-success badge-dot">healthy</span></td>
+                  <td class="text-muted">eu-west-1</td>
+                  <td class="mono text-muted">2m ago</td>
+                </tr>
+                <tr>
+                  <td><strong>auth-service</strong></td>
+                  <td><span class="badge badge-success badge-dot">healthy</span></td>
+                  <td class="text-muted">eu-west-1</td>
+                  <td class="mono text-muted">14m ago</td>
+                </tr>
+                <tr>
+                  <td><strong>worker-queue</strong></td>
+                  <td><span class="badge badge-warning badge-dot">degraded</span></td>
+                  <td class="text-muted">us-east-1</td>
+                  <td class="mono text-muted">1h ago</td>
+                </tr>
+                <tr>
+                  <td><strong>billing-api</strong></td>
+                  <td><span class="badge badge-danger badge-dot">down</span></td>
+                  <td class="text-muted">us-east-1</td>
+                  <td class="mono text-muted">3h ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Display -->
+    <section class="docs-section" id="data-display">
+      <div class="docs-grid">
+        <div class="docs-label">Data Display</div>
+        <div class="stack">
+          <p class="body-sm text-muted" style="max-width: 58ch;">Operational interfaces need dense state that still scans fast: progress, key-value context, and compact snapshots for build and deploy tooling.</p>
+          <div class="cluster">
+            <span class="badge">Progress</span>
+            <span class="badge">Description List</span>
+            <span class="badge">Status</span>
+            <span class="badge">Metadata</span>
+          </div>
+          <div class="component-row" style="max-width: 560px;">
+            <p class="mono-label mb-2">Progress Bar</p>
+            <div class="card card-sm">
+              <div class="stack stack-sm">
+                <div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+                    <span class="body-sm">Canary rollout</span>
+                    <span class="mono-sm text-muted">18%</span>
+                  </div>
+                  <div class="progress mt-2"><div class="progress-fill" style="--value: 18%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+                    <span class="body-sm">Schema backfill</span>
+                    <span class="mono-sm text-muted">64%</span>
+                  </div>
+                  <div class="progress mt-2"><div class="progress-fill" style="--value: 64%;"></div></div>
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+                    <span class="body-sm">Incident runbook coverage</span>
+                    <span class="mono-sm text-muted">92%</span>
+                  </div>
+                  <div class="progress mt-2"><div class="progress-fill" style="--value: 92%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Description List</p>
+            <dl class="description-list">
+              <dt>primary region</dt>
+              <dd>eu-west-1 · 3 edge POPs warmed</dd>
+              <dt>runtime</dt>
+              <dd>Node.js 22 · Bun workers for previews</dd>
+              <dt>deploy SHA</dt>
+              <dd><code>91f4c2d</code> · built from <strong>release/train-24</strong></dd>
+              <dt>rollback window</dt>
+              <dd>30 minutes · automated snapshot retained</dd>
+              <dt>status</dt>
+              <dd><span class="badge badge-success badge-dot">ready for promotion</span></dd>
+            </dl>
           </div>
         </div>
       </div>
@@ -1194,15 +1196,15 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
             <figure class="figure-demo">
               <div class="image-frame">
                 <svg viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Deploy review board preview">
-                  <rect width="160" height="90" rx="12" fill="#f5f2ec"/>
-                  <rect x="10" y="10" width="36" height="70" rx="8" fill="#e8dcc8"/>
+                  <rect width="160" height="90" rx="12" fill="#f0ede7"/>
+                  <rect x="10" y="10" width="36" height="70" rx="8" fill="#e5e1da"/>
                   <circle cx="28" cy="24" r="8" fill="#c45d2c"/>
                   <rect x="18" y="40" width="20" height="6" rx="3" fill="#4a6670" opacity="0.75"/>
                   <rect x="16" y="52" width="24" height="6" rx="3" fill="#4a6670" opacity="0.5"/>
                   <rect x="58" y="12" width="92" height="16" rx="6" fill="#1a1a18" opacity="0.08"/>
                   <rect x="58" y="36" width="42" height="18" rx="6" fill="#c45d2c" opacity="0.9"/>
                   <rect x="108" y="36" width="42" height="18" rx="6" fill="#4a6670" opacity="0.86"/>
-                  <rect x="58" y="62" width="92" height="16" rx="8" fill="#e8dcc8"/>
+                  <rect x="58" y="62" width="92" height="16" rx="8" fill="#e5e1da"/>
                   <path d="M66 68 L82 60 L98 66 L118 48 L142 54" fill="none" stroke="#5a7a52" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
@@ -1229,6 +1231,141 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key-Value List -->
+    <section class="docs-section" id="kv-list">
+      <div class="docs-grid">
+        <div class="docs-label">Key-Value List</div>
+        <div>
+          <div class="card card-sm">
+            <div class="kv-list">
+              <span class="kv-key">version</span>
+              <span class="kv-value">1.0.0</span>
+              <span class="kv-key">runtime</span>
+              <span class="kv-value">Node.js 20.11</span>
+              <span class="kv-key">region</span>
+              <span class="kv-value">eu-west-1</span>
+              <span class="kv-key">last-deploy</span>
+              <span class="kv-value">2024-01-15 14:32:08 UTC</span>
+              <span class="kv-key">status</span>
+              <span class="kv-value"><span class="badge badge-success badge-dot">operational</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Log Viewer -->
+    <section class="docs-section" id="log-viewer">
+      <div class="docs-grid">
+        <div class="docs-label">Log Viewer</div>
+        <div>
+          <div class="log-viewer">
+            <div class="log-entry">
+              <span class="log-time">14:32:08</span>
+              <span class="log-level log-level-info">INFO</span>
+              <span class="log-message">Server started on port 3000</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:09</span>
+              <span class="log-level log-level-info">INFO</span>
+              <span class="log-message">Database connection established</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:11</span>
+              <span class="log-level log-level-warn">WARN</span>
+              <span class="log-message">Rate limit threshold at 80% capacity</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:14</span>
+              <span class="log-level log-level-error">ERROR</span>
+              <span class="log-message">Connection timeout: redis://cache.internal:6379</span>
+            </div>
+            <div class="log-entry">
+              <span class="log-time">14:32:15</span>
+              <span class="log-level log-level-debug">DEBUG</span>
+              <span class="log-message">Retry attempt 1/3 for cache connection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code & Terminal -->
+    <section class="docs-section docs-section-surface" id="code">
+      <div class="docs-grid">
+        <div class="docs-label">Code &amp; Terminal</div>
+        <div class="stack">
+          <div class="component-row">
+            <p class="mono-label mb-2">Inline Code</p>
+            <p class="body-md">Install with <code>npm install wrkbnch-css</code> and link the stylesheet.</p>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Code Block</p>
+            <pre><code>&lt;link rel="stylesheet" href="wrkbnch.css"&gt;
+
+&lt;div class="card"&gt;
+  &lt;p class="mono-label"&gt;Status&lt;/p&gt;
+  &lt;p class="heading-xl"&gt;Operational&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+          <div class="component-row">
+            <p class="mono-label mb-2">Terminal</p>
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-title">~/projects/my-app</span>
+              </div>
+              <div class="terminal-prompt">npm run build</div>
+              <div class="terminal-output">
+> my-app@1.0.0 build
+> vite build
+
+✓ 247 modules transformed.
+dist/index.html    0.42 kB │ gzip: 0.27 kB
+dist/app.js       84.21 kB │ gzip: 27.83 kB
+dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
+              <div class="terminal-comment"># Build completed in 1.8s</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter: Feedback & status -->
+    <div class="docs-chapter" id="ch-feedback">
+      <h2 class="docs-chapter-title">Feedback & status</h2>
+      <p class="docs-chapter-desc">Telling the user what happened, what is happening, and what is missing.</p>
+    </div>
+
+    <!-- Alerts -->
+    <section class="docs-section" id="alerts">
+      <div class="docs-grid">
+        <div class="docs-label">Alerts<br><span style="font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; opacity: 0.7;">Inline system messages. Use toasts for transient feedback instead.</span></div>
+        <div class="stack">
+          <div class="alert alert-info">Deploy completed successfully in 2.3s. All health checks passed.</div>
+          <div class="alert alert-accent">New version available. Run <code>npm update wrkbnch-css</code> to upgrade.</div>
+          <div class="alert alert-warning">Rate limit approaching. 847/1000 requests used this hour.</div>
+          <div class="alert alert-danger">Connection to database lost. Retrying in 5s.</div>
+          <div class="alert alert-success">Migration applied. 3 tables created, 0 errors.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast -->
+    <section class="docs-section" id="toast">
+      <div class="docs-grid">
+        <div class="docs-label">Toast</div>
+        <div class="stack">
+          <div class="toast toast-success">Deploy to production completed. 3 instances healthy.</div>
+          <div class="toast toast-danger">Build failed. Check logs for details.</div>
+          <div class="toast toast-warning">API key expires in 7 days.</div>
+          <div class="toast toast-info">New team member added to project.</div>
         </div>
       </div>
     </section>
@@ -1319,6 +1456,70 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       </div>
     </section>
 
+    <!-- Status & Progress -->
+    <section class="docs-section" id="status">
+      <div class="docs-grid">
+        <div class="docs-label">Status &amp; Progress</div>
+        <div class="stack">
+          <div class="cluster component-row">
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-success"></span> Healthy</span>
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-warning"></span> Degraded</span>
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-danger"></span> Down</span>
+            <span class="cluster cluster-sm"><span class="status-dot status-dot-info"></span> Maintenance</span>
+          </div>
+          <div class="component-row" style="max-width: 400px;">
+            <p class="mono-label mb-2">Progress</p>
+            <div class="progress"><div class="progress-bar" style="width: 67%;"></div></div>
+            <p class="mono-sm text-muted mt-2">67% · 134 of 200 tasks complete</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty State -->
+    <section class="docs-section" id="empty-state">
+      <div class="docs-grid">
+        <div class="docs-label">Empty State</div>
+        <div>
+          <div class="card">
+            <div class="empty-state">
+              <div class="empty-state-icon">⊘</div>
+              <p class="empty-state-title">No deployments yet</p>
+              <p class="empty-state-description">Push to main to trigger your first deployment, or configure a manual deploy.</p>
+              <button class="btn btn-primary mt-4">Configure Deploy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter: Overlays & disclosure -->
+    <div class="docs-chapter" id="ch-overlays">
+      <h2 class="docs-chapter-title">Overlays & disclosure</h2>
+      <p class="docs-chapter-desc">Content that opens on demand: dialogs and progressive disclosure.</p>
+    </div>
+
+    <!-- Dialog -->
+    <section class="docs-section" id="dialog">
+      <div class="docs-grid">
+        <div class="docs-label">Dialog</div>
+        <div>
+          <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-demo-title" style="position: relative; box-shadow: var(--shadow-lg);">
+            <div class="dialog-header">
+              <span class="heading-sm" id="dialog-demo-title">Delete environment</span>
+            </div>
+            <div class="dialog-body">
+              <p class="body-sm">This will permanently delete <strong>staging-eu</strong> and all associated resources. This action cannot be undone.</p>
+            </div>
+            <div class="dialog-footer">
+              <button class="btn btn-ghost">Cancel</button>
+              <button class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Accordion -->
     <section class="docs-section" id="accordion">
       <div class="docs-grid">
@@ -1342,44 +1543,11 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       </div>
     </section>
 
-    <!-- Buttons & Badges Additions -->
-    <section class="docs-section" id="buttons-badges">
-      <div class="docs-grid">
-        <div class="docs-label">Buttons &amp; Badges+</div>
-        <div class="stack">
-          <div class="component-row">
-            <p class="mono-label mb-2">Button Group</p>
-            <div class="button-group">
-              <button class="btn">Day</button>
-              <button class="btn">Week</button>
-              <button class="btn btn-primary">Month</button>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Tags</p>
-            <div class="cluster">
-              <span class="tag">node.js <button>×</button></span>
-              <span class="tag">typescript <button>×</button></span>
-              <span class="tag">docker <button>×</button></span>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Version Badge &amp; Cmd Pill</p>
-            <div class="cluster">
-              <span class="version-badge">v1.1.0</span>
-              <span class="cmd-pill"><span class="dollar">$</span> npm run build</span>
-            </div>
-          </div>
-          <div class="component-row">
-            <p class="mono-label mb-2">Kbd</p>
-            <div class="cluster">
-              <kbd>⌘</kbd> <kbd>K</kbd>
-              <span class="text-muted body-sm">to open command palette</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Chapter: Surfaces & patterns -->
+    <div class="docs-chapter" id="ch-patterns">
+      <h2 class="docs-chapter-title">Surfaces & patterns</h2>
+      <p class="docs-chapter-desc">Composite layouts assembled from the primitives above.</p>
+    </div>
 
     <!-- Hero -->
     <section class="docs-section docs-section-dark" id="hero">
@@ -1447,6 +1615,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
         <div class="docs-label">Patterns</div>
         <div class="stack">
           <p class="body-sm text-muted" style="max-width: 58ch;">Compound layouts for product pages, onboarding, and account workflows. Ready for launch screens, docs hubs, and internal tooling.</p>
+          <p class="docs-demo-note">Pattern demo: names, prices, quotes, and logos below are illustrative placeholder content, not real offerings.</p>
           <div class="component-row">
             <p class="mono-label mb-2">Pricing Grid</p>
             <div class="pricing-grid">
@@ -1499,7 +1668,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
               <div class="testimonial-person">
                 <div class="testimonial-avatar">
                   <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rina Kato">
-                    <rect width="48" height="48" rx="24" fill="#e8dcc8"/>
+                    <rect width="48" height="48" rx="24" fill="#e5e1da"/>
                     <text x="24" y="29" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="700" fill="#4a6670">RK</text>
                   </svg>
                 </div>
@@ -1592,6 +1761,12 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       </div>
     </section>
 
+    <!-- Chapter: Utilities -->
+    <div class="docs-chapter" id="ch-utilities">
+      <h2 class="docs-chapter-title">Utilities</h2>
+      <p class="docs-chapter-desc">Helper classes for spacing, layout, and quick adjustments.</p>
+    </div>
+
     <section class="docs-section" id="utilities">
       <div class="docs-grid">
         <div class="docs-label">Utilities</div>
@@ -1645,7 +1820,7 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
   <footer class="container py-12">
     <hr class="separator">
     <div class="cluster justify-between">
-      <p class="body-sm text-muted">wrkbnch v1.0 · MIT License</p>
+      <p class="body-sm text-muted">wrkbnch v1.2 · MIT License</p>
       <div class="cluster cluster-sm">
         <a href="https://github.com/Laskewitz/wrkbnch" class="body-sm">GitHub</a>
         <a href="https://www.npmjs.com/package/wrkbnch-css" class="body-sm">npm</a>
@@ -1707,7 +1882,8 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
           if (!target) return;
           event.preventDefault();
           setActiveLink(target.id);
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
           if (window.history && window.history.replaceState) {
             window.history.replaceState(null, '', '#' + target.id);
           }
@@ -1739,14 +1915,123 @@ dist/app.css       3.12 kB │ gzip: 1.04 kB</div>
       const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
       const sidebar = document.querySelector('.docs-sidebar');
       if (sidebarToggle && sidebar) {
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+        sidebarToggle.setAttribute('aria-controls', 'docs-nav');
+        function setSidebarOpen(open) {
+          sidebar.classList.toggle('is-open', open);
+          sidebarToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          sidebarToggle.textContent = open ? '✕' : '☰';
+        }
         sidebarToggle.addEventListener('click', function() {
-          sidebar.classList.toggle('is-open');
-          sidebarToggle.textContent = sidebar.classList.contains('is-open') ? '✕' : '☰';
+          setSidebarOpen(!sidebar.classList.contains('is-open'));
         });
         sidebar.addEventListener('click', function(e) {
           if (e.target.closest('a[href^="#"]')) {
-            sidebar.classList.remove('is-open');
-            sidebarToggle.textContent = '☰';
+            setSidebarOpen(false);
+          }
+        });
+      }
+
+      // Copy-to-clipboard buttons for code blocks
+      function flashCopied(button, label) {
+        const original = button.dataset.copyLabel || 'Copy';
+        button.classList.add('is-copied');
+        button.textContent = label;
+        clearTimeout(button._copyTimer);
+        button._copyTimer = setTimeout(function() {
+          button.classList.remove('is-copied');
+          button.textContent = original;
+        }, 1600);
+      }
+
+      function copyText(text, button) {
+        function done() { flashCopied(button, 'Copied'); }
+        function fail() { flashCopied(button, 'Press ⌘C'); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(fail);
+        } else {
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            done();
+          } catch (err) { fail(); }
+        }
+      }
+
+      function makeCopyButton(label, getText, extraClass) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'docs-copy' + (extraClass ? ' ' + extraClass : '');
+        button.dataset.copyLabel = 'Copy';
+        button.textContent = 'Copy';
+        button.setAttribute('aria-label', label);
+        button.addEventListener('click', function() {
+          copyText(getText().replace(/\s+$/, ''), button);
+        });
+        return button;
+      }
+
+      document.querySelectorAll('pre').forEach(function(pre) {
+        if (pre.closest('.docs-pre-wrap')) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'docs-pre-wrap';
+        pre.parentNode.insertBefore(wrap, pre);
+        wrap.appendChild(pre);
+        wrap.appendChild(makeCopyButton('Copy code to clipboard', function() {
+          return pre.innerText;
+        }));
+      });
+
+      const installCode = document.querySelector('[data-copy-install]');
+      if (installCode) {
+        installCode.insertAdjacentElement('afterend', makeCopyButton(
+          'Copy install command to clipboard',
+          function() { return installCode.innerText; },
+          'docs-copy-inline docs-copy-ondark'
+        ));
+      }
+
+      // Component search
+      const searchInput = document.querySelector('[data-docs-search]');
+      const emptyMessage = document.querySelector('[data-docs-empty]');
+      if (searchInput) {
+        const groups = Array.from(document.querySelectorAll('.docs-nav-group'));
+        const groupState = new WeakMap();
+        function runSearch(raw) {
+          const query = raw.trim().toLowerCase();
+          let anyVisible = false;
+          groups.forEach(function(group) {
+            let groupHasMatch = false;
+            group.querySelectorAll('.docs-sidebar-link--child').forEach(function(link) {
+              const match = !query || link.textContent.toLowerCase().indexOf(query) !== -1;
+              link.classList.toggle('is-filtered-out', !match);
+              if (match) groupHasMatch = true;
+            });
+            group.classList.toggle('is-filtered-out', !groupHasMatch);
+            if (groupHasMatch) anyVisible = true;
+            if (query) {
+              if (!groupState.has(group)) groupState.set(group, group.open);
+              group.open = groupHasMatch;
+            } else if (groupState.has(group)) {
+              group.open = groupState.get(group);
+              groupState.delete(group);
+            }
+          });
+          if (emptyMessage) emptyMessage.classList.toggle('is-visible', !anyVisible);
+        }
+        searchInput.addEventListener('input', function() { runSearch(searchInput.value); });
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            searchInput.value = '';
+            runSearch('');
+            searchInput.blur();
           }
         });
       }
